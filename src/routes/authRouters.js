@@ -80,8 +80,8 @@ router.post("/login", logInChecker, userController.logIn);
  */
 router.post(
   "/register",
-  protectMiddleware.protect,
-  protectMiddleware.restrictTo("admin"),
+  // protectMiddleware.protect,
+  // protectMiddleware.restrictTo("admin"),
   userValidate,
   userController.createUser
 );
