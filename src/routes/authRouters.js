@@ -82,7 +82,7 @@ router.post(
   "/register",
   // protectMiddleware.protect,
   // protectMiddleware.restrictTo("admin"),
-  // userValidate,
+  userValidate,
   userController.createUser
 );
 /**
