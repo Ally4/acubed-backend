@@ -8,24 +8,30 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      name: {
+      firstName: {
+        type: Sequelize.STRING,
+      },
+      lastName: {
         type: Sequelize.STRING,
       },
       email: {
         type: Sequelize.STRING,
       },
+      phone: {
+        type: Sequelize.STRING,
+      },
       password: {
         type: Sequelize.STRING,
       },
-      role: {
-        type: Sequelize.STRING,
-      },
+      // role: {
+      //   type: Sequelize.STRING,
+      // },
       birthdate: {
         type: Sequelize.DATE,
       },
-      gender: {
-        type: Sequelize.STRING,
-      },
+      // gender: {
+      //   type: Sequelize.STRING,
+      // },
       isLoggedIn: {
         type: Sequelize.BOOLEAN,
         allowNull: false,

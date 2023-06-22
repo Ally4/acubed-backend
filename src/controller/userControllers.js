@@ -80,8 +80,8 @@ class userController {
     try {
       // const generatedPassword = pwd.generatePassword();
       // const hashed = await bcrypts.hash(generatedPassword, 12);
-      const password =  req.body.password;
-      const confirmPassword =  req.body.confirmPassword;
+      // const password =  req.body.password;
+      // const confirmPassword =  req.body.confirmPassword;
       if (req.body.password !== req.body.confirmPassword) {
         res.status(400).json({
           message: res.__(
@@ -89,7 +89,7 @@ class userController {
           ),
         });
       }
-      const role = await defaultRole.generateDefault();
+      // const role = await defaultRole.generateDefault();
       const theUser = {
         firstName: req.body.firstname,
         lastName: req.body.lastname,
@@ -97,9 +97,7 @@ class userController {
         phone: req.body.phone,
         // password: hashed,
         password: await bcrypts.hash(req.body.password, 12),
-        role: req.body.role,
         birthdate: req.body.birthdate,
-        gender: req.body.gender,
       };
 
       const email = req.body.email;
@@ -115,14 +113,16 @@ class userController {
         });
         return false;
       }
+
       const user = await User.create(theUser);
-      const options = {
-        userEmail: `${email}`,
-        subject: "Acubed Registration Successful",
-        message: messages.signupEmail(email, generatedPassword),
-      };
-      emails.sendEmail(options);
+      // const options = {
+      //   userEmail: `${email}`,
+      //   subject: "Acubed Registration Successful",                                 This is to send an email to the erson who wants to signin
+      //   message: messages.signupEmail(email, generatedPassword),
+      // };
+      // emails.sendEmail(options);
       return res.status(201).json({
+        message: "the user has been sucessfully created",
         user,
       });
     } catch (error) {

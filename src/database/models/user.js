@@ -2,12 +2,13 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
-      name: DataTypes.STRING,
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
       email: DataTypes.STRING,
+      phone: DataTypes.STRING,
       password: DataTypes.STRING,
-      role: DataTypes.STRING,
       birthdate: DataTypes.DATE,
-      gender: DataTypes.STRING,
+      // gender: DataTypes.STRING,
       isLoggedIn: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
