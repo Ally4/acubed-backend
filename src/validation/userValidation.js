@@ -21,6 +21,11 @@ const userValidate = (req, res, next) => {
             "any.required": res.__('birthdate is required'),
             "date.base": res.__('date of birth should be in a format yyyy-mm-dd')
         }),
+        password: Joi.string().required().min(4).messages({
+            "any.required": res.__('name is required'),
+            "string.empty": res.__('Name must not be empty'),
+            "string.min": res.__('Name must be atleast four characters')
+        }),
     });
     const result = userValiation.validate(req.body);
     if (result.error) return res.status(400).json({ message: result.error.details[0].message });

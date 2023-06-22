@@ -83,7 +83,7 @@ router.post(
   // protectMiddleware.protect,
   // protectMiddleware.restrictTo("admin"),
   userValidate,
-  userController.createUser
+  userController.createUser,
 );
 /**
  * @swagger
