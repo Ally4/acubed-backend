@@ -78,14 +78,26 @@ class userController {
 
   static async createUser(req, res) {
     try {
-      const generatedPassword = pwd.generatePassword();
-      const hashed = await bcrypts.hash(generatedPassword, 12);
+      // const generatedPassword = pwd.generatePassword();
+      // const hashed = await bcrypts.hash(generatedPassword, 12);
+      const password =  req.body.password;
+      const confirmPassword =  req.body.confirmPassword;
+      if (req.body.password !== req.body.confirmPassword) {
+        res.status(400).json({
+          message: res.__(
+            "The password its different from its confirmation"
+          ),
+        });
+      }
       const role = await defaultRole.generateDefault();
       const theUser = {
-        name: req.body.name,
+        firstName: req.body.firstname,
+        lastName: req.body.lastname,
         email: req.body.email,
-        password: hashed,
-        role: role,
+        phone: req.body.phone,
+        // password: hashed,
+        password: await bcrypts.hash(req.body.password, 12),
+        role: req.body.role,
         birthdate: req.body.birthdate,
         gender: req.body.gender,
       };
@@ -106,7 +118,7 @@ class userController {
       const user = await User.create(theUser);
       const options = {
         userEmail: `${email}`,
-        subject: "Phantom Registration Successful",
+        subject: "Acubed Registration Successful",
         message: messages.signupEmail(email, generatedPassword),
       };
       emails.sendEmail(options);
