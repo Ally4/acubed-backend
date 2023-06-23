@@ -1,13 +1,13 @@
 import Joi from 'joi';
 const userValidate = (req, res, next) => {
     const userValiation = Joi.object({
-        FirstName: Joi.string().required().min(4).messages({
-            "any.required": res.__('name is required'),
+        firstName: Joi.string().required().min(4).messages({
+            "any.required": res.__('First name is required'),
             "string.empty": res.__('Name must not be empty'),
             "string.min": res.__('Name must be atleast four characters')
         }),
         lastName: Joi.string().required().min(4).messages({
-            "any.required": res.__('name is required'),
+            "any.required": res.__('Last name is required'),
             "string.empty": res.__('Name must not be empty'),
             "string.min": res.__('Name must be atleast four characters')
         }),
@@ -18,7 +18,7 @@ const userValidate = (req, res, next) => {
             "string.empty": res.__('Email must not be empty')
         }),
         phone: Joi.string().required().min(4).messages({
-            "any.required": res.__('name is required'),
+            "any.required": res.__('phone is required'),
             "string.empty": res.__('Name must not be empty'),
             "string.min": res.__('Name must be atleast four characters')
         }),
@@ -32,7 +32,12 @@ const userValidate = (req, res, next) => {
             "date.base": res.__('date of birth should be in a format yyyy-mm-dd')
         }),
         password: Joi.string().required().min(4).messages({
-            "any.required": res.__('name is required'),
+            "any.required": res.__('Password is required'),
+            "string.empty": res.__('Name must not be empty'),
+            "string.min": res.__('Name must be atleast four characters')
+        }),
+        confirmPassword: Joi.string().required().min(4).messages({
+            "any.required": res.__('Password is required'),
             "string.empty": res.__('Name must not be empty'),
             "string.min": res.__('Name must be atleast four characters')
         }),

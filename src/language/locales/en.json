@@ -129,5 +129,9 @@
 	"can't assign bus to route": "can't assign bus to route",
 	"Bus is not assigned to the route ": "Bus is not assigned to the route ",
 	"Logout successfully": "Logout successfully",
-	"You're not logged in": "You're not logged in"
+	"You're not logged in": "You're not logged in",
+	"First name is required": "First name is required",
+	"Last name is required": "Last name is required",
+	"phone is required": "phone is required",
+	"The password its different from its confirmation": "The password its different from its confirmation"
 }
