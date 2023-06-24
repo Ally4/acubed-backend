@@ -1,32 +1,35 @@
+const {
+  Model,
+} = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-  const Bus = sequelize.define('Bus', {
-    plate: DataTypes.STRING,
-    company: DataTypes.STRING,
-    seats: DataTypes.INTEGER,
-    commuters:DataTypes.INTEGER,
-    availableSeats:DataTypes.INTEGER,
-    status: DataTypes.STRING,
-    category: DataTypes.STRING,
-    type: DataTypes.STRING,
-    location: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
-    routeId:DataTypes.INTEGER
-  }, {});
-  
-  Bus.associate = function(models) {
-    
-    Bus.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'driver',
-      onDelete: 'CASCADE',
-    });
+  class Bus extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      Bus.belongsTo(models.Users, {
+        foreignKey: 'userId',
+        as: 'driver',
+        onDelete: 'CASCADE',
+      });
+    }
+  }
 
-    Bus.belongsTo(models.Route, {
-      foreignKey: 'routeId',
-      as: 'route',
-      onDelete: 'CASCADE',
-    });
-
-  };
+  Bus.init({
+    busPlate: DataTypes.STRING,
+    busStatus: DataTypes.STRING,
+    busLocation: DataTypes.STRING,
+    busCompany: DataTypes.STRING,
+    busSeats: DataTypes.STRING,
+    userId: DataTypes.STRING,
+    routeId: DataTypes.INTEGER,
+  }, {
+    sequelize,
+    modelName: 'Bus',
+  });
   return Bus;
 };

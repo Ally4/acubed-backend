@@ -1,17 +1,31 @@
-import express from "express";
-import routes from './routes/index'
-import i18n from './language/languageConfig'
-import cors from 'cors'
+import express from 'express';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import i18n from 'i18n';
+import routes from './routers';
+import router from './routers/bus.routers';
+
+
+dotenv.config();
 
 const app = express();
-app.use(express.json())
-app.use(cors())
+app.use(i18n.init);
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(routes);
 
-app.use(i18n.init)
 
-app.use(routes)
 
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, console.log(`Server started on port ${PORT}`))
 
-export default app
+app.use(router);
+
+const port = process.env.PORT || 3020;
+
+app.listen(port, () => {
+  console.log(port);
+});
+
+export default app;
