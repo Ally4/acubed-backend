@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import mail from '@sendgrid/mail';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcryptjs';
+import bcrypts from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import localStorage from 'localStorage';
 import Models from '../database/models';
@@ -19,44 +20,56 @@ class register {
     try {
       const {
         email,
-        firstname,
-        lastname,
-        dateofbirth,
+        firstName,
+        lastName,
+        phoneNumber,  
+        dateOfBirth,
         gender,
         address,
-        role,
+        password,
+        confirmPassword,
       } = req.body;
       const id = uuidv4();
       const inSystem = await Users.findOne({
         where: { email },
       });
+      if (password !== confirmPassword) {
+        return res
+          .status(400)
+          .json({ status: 400, message: res.__('Check well the passwords you are inserting') });
+      }
       if (inSystem) {
         return res
           .status(409)
           .json({ status: 409, message: res.__('The email is already in the system') });
       }
+      
+      const thePassword = bcrypts.hashSync(password, 10);
+
       const newUser = await Users.create({
         id,
         email,
-        firstname,
-        lastname,
-        password,
-        dateofbirth,
+        firstName,
+        lastName,
+        phoneNumber,  
+        dateOfBirth,
         gender,
         address,
-        role,
+        password: thePassword,
+        // role,
       });
       const newUserDisplay = {
         id: newUser.id,
         email: newUser.email,
-        firstname: newUser.firstname,
-        lastname: newUser.lastname,
-        dateofbirth: newUser.dateofbirth,
-        gender: newUser.dateofbirth,
-        address: newUser.address,
-        role: newUser.role
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        phoneNumber: newUser.phoneNumber,
+        // dateOfBirth: newUser.dateOfBirth,
+        gender: newUser.gender,
+        // address: newUser.address,
+        // role: newUser.role
       };
-      message(email);
+      // message(email);
       return res.status(201).json({
         status: 201,
         message: res.__('user created successfully'),

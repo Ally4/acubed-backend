@@ -9,6 +9,7 @@
     "test:coverage": "jest --coverage",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node  ./src/app.js",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "migrate:down": "npx sequelize-cli db:migrate:undo:all",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all",
     "seed:test": "cross-env NODE_ENV=test sequelize db:seed:all",
