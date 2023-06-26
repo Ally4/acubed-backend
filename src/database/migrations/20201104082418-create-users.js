@@ -6,10 +6,10 @@ module.exports = {
         primaryKey: true,
         allowNull: false,
       },
-      firstname: {
+      firstName: {
         type: Sequelize.STRING,
       },
-      lastname: {
+      lastName: {
         type: Sequelize.STRING,
       },
       email: {
@@ -18,7 +18,7 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
       },
-      dateofbirth: {
+      dateOfBirth: {
         type: Sequelize.STRING,
       },
       gender: {
@@ -27,9 +27,12 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
-      role: {
+      phoneNumber: {
         type: Sequelize.STRING,
       },
+      // role: {
+      //   type: Sequelize.STRING,
+      // },
       isLoggedIn: {
         type: Sequelize.BOOLEAN,
         defaultValue: false

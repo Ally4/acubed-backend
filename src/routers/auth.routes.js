@@ -98,7 +98,7 @@ router.post('/login', validateSignin, userController.login);
 router.post('/register', 
 // checkUser, 
 // isAdmin, 
-// validationError,
+validationError,
  userController.signup);
 
 /**

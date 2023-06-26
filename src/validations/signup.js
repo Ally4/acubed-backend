@@ -5,6 +5,8 @@ export const signup = Joi.object().keys({
   lastName: Joi.string().min(5).max(15).required(),
   email: Joi.string().email().required(),
   dateOfBirth: Joi.string().min(5).max(15).required(),
+  password: Joi.string().min(5).max(15).required(),
+  confirmPassword: Joi.string().min(5).max(15).required(),
   gender: Joi.string().min(3).max(15).required(),
   address: Joi.string().min(5).max(15).required(),
   phoneNumber: Joi.string().min(5).max(15).required(),

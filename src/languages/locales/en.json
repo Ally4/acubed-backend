@@ -63,7 +63,8 @@
 	"you are not logged in": "you are not logged in",
 	"this route doesn't exist in the system": "this route doesn't exist in the system",
 	"origin should be not less than 4 characters": "origin should be not less than 4 characters",
-	"origin is required":"origin is required",
+	"origin is required": "origin is required",
 	"destination should be not less than 4 characters": "destination should be not less than 4 characters",
-	"destination is required":"destination is required"
+	"destination is required": "destination is required",
+	"Check well the passwords you are inserting": "Check well the passwords you are inserting"
 }
