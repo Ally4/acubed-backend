@@ -123,7 +123,10 @@ router.post('/register', checkUser, isAdmin, validationError, userController.sig
 *             description: Bad request.
 * */
 
-router.post('/forgotten-link', isDriverOrOperator, validationErrorForgotten, userController.forgot);
+router.post('/forgotten-link', 
+// isDriverOrOperator, 
+validationErrorForgotten, 
+userController.forgot);
 
 /**
 * @swagger
