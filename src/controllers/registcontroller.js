@@ -203,6 +203,10 @@ static async logout(req,res){
         email: user.email,
         role: user.role,
       };
+
+
+
+
       const resetToken = encode(payload);
       await user.update({ resetlink: resetToken });
       const forgottenMail = {
@@ -217,10 +221,11 @@ static async logout(req,res){
         message: res.__('the link has been sent successfully to the provided email'),
       });
     } catch (error) {
+      console.log("=============================", error)
       return res.status(500).json({ status: 500, message: error.message });
     }
   }
-  
+
   static async resetPassword(req, res) {
     try{
       const { newpassword } = req.body;
