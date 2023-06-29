@@ -128,7 +128,10 @@ validationError,
 *             description: Bad request.
 * */
 
-router.post('/forgotten-link', isDriverOrOperator, validationErrorForgotten, userController.forgot);
+router.post('/forgotten-link', 
+// isDriverOrOperator, 
+// validationErrorForgotten, 
+userController.forgot);
 
 /**
 * @swagger
