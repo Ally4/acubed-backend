@@ -130,7 +130,7 @@ validationError,
 
 router.post('/forgotten-link', 
 // isDriverOrOperator, 
-// validationErrorForgotten, 
+validationErrorForgotten, 
 userController.forgot);
 
 /**

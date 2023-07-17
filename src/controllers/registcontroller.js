@@ -211,17 +211,16 @@ static async logout(req,res){
       await user.update({ resetlink: resetToken });
       const forgottenMail = {
         to: email,
-        from: 'eaglesphantom1@gmail.com',
+        from: 'el.ally741@gmail.com',
         subject: 'Reseting of the password on phantom platform',
         html: `<h2> Dear customer we are pleased to give you this link to reset your password, follow the instructions: </h2><h3>paste the whole link in in postman and send the request with the newpassword, using a json format</h3><p>localhost:3020/api/v1/auth/reset-password/${resetToken}</p>`,
       };
       mail.send(forgottenMail);
-      return res.status(403).json({
-        status: 403,
+      return res.status(201).json({
+        status: 201,
         message: res.__('the link has been sent successfully to the provided email'),
       });
     } catch (error) {
-      console.log("=============================", error)
       return res.status(500).json({ status: 500, message: error.message });
     }
   }
