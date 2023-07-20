@@ -1,0 +1,23 @@
+services:
+  - postgresql
+before_script:
+  - psql -c 'CREATE DATABASE users;' -U postgres
+  - psql -c 'CREATE DATABASE phantoms;' -U postgres
+  - psql -c 'CREATE DATABASE test;' -U postgres
+install: npm install
+
+notifications: 
+  email: false
+sudo: false
+
+cache:
+  directories:
+    - 'node_modules'  
+  
+language: node_js
+node_js:
+  - "12"
+scripts:
+  - npm test
+after_success:
+  - npm run coverage
