@@ -30,9 +30,9 @@ module.exports = {
       phoneNumber: {
         type: Sequelize.STRING,
       },
-      // role: {
-      //   type: Sequelize.STRING,
-      // },
+      role: {
+        type: Sequelize.STRING,
+      },
       isLoggedIn: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
