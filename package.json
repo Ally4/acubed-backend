@@ -1,5 +1,5 @@
 {
-  "name": "eagles-phantom-backend",
+  "name": "acubed-backend",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "clean": "rm -rf build && mkdir build",
     "build-src": "babel -d ./build ./src -s",
     "build": "npm run migrate:heroku && npm run clean && npm run build-src",
-    "start": "node --require @babel/polyfill build/app.js"
+    "start": "npm run build-src && node --require @babel/polyfill build/app.js"
   },
   "nyc": {
     "exclude": [
