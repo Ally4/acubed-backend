@@ -1,7 +1,7 @@
 // This is it
 import express from 'express';
 import healthFacilityController from '../controllers/healthFacilityController';
-import { validationError } from '../validations/signup';
+import { validateHealthFacility } from '../validations/healthFaciility';
 
 const router = express.Router();
 
@@ -51,7 +51,7 @@ const router = express.Router();
 * */
 
 router.post('/register',
-validationError,
+validateHealthFacility,
 healthFacilityController.create);
 
 export default router;

@@ -8,15 +8,15 @@ export const signin = Joi.object().keys({
   tests: Joi
   .array()
   .items(
-    joi.object({
-      name: joi.string(),
-      price: joi.string(),
-      approximateWait: joi.string(),
+    Joi.object({
+      name: Joi.string(),
+      price: Joi.string(),
+      approximateWait: Joi.string(),
     })
   )
   .required(),
 });
-export const validateSignin = (req, res, next) => {
+export const validateHealthFacility = (req, res, next) => {
   const { error } = signin.validate(req.body);
   if (error) {
     return res.status(400).json({

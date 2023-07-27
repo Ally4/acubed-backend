@@ -4,7 +4,7 @@ import Models from '../database/models';
 
 
 
-const { Users } = Models;
+const { healthFacilities } = Models;
 class healthInstitution {
   static async create(req, res) {
     try {
@@ -17,7 +17,7 @@ class healthInstitution {
         tests
       } = req.body;
       const id = uuidv4();
-      const inSystem = await Users.findOne({
+      const inSystem = await healthFacilities.findOne({
         where: { name },
       });
 
@@ -28,7 +28,7 @@ class healthInstitution {
           .json({ status: 409, message: res.__('The email is already in the system') });
       }
 
-      const healthFacility = await Users.create({
+      const healthFacility = await healthFacilities.create({
         name,
         email,
         phoneNumber,  
