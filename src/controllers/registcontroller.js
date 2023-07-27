@@ -170,6 +170,7 @@ static async logout(req,res){
     }
   }
   static async getallusers(req, res) {
+    try {
     const users = await Users.findAll({
       where: {
         [Op.or]: [
@@ -187,7 +188,11 @@ static async logout(req,res){
         users,
       },
     });
+  }    catch(error) {   return res.status(500).json({
+    error: error.message,
+  })
   }
+}
 
 
   static async forgot(req, res) {
@@ -254,15 +259,15 @@ static async logout(req,res){
       });
     }
    catch(err){
-     
-       }
-  
+    return res.status(500).json({
+      error: err.message,
+       })
+      }
 }
 
   static async resetPassword(req, res) {
     try{
       const { newpassword, confirmation, email } = req.body;
-
       const user = await Users.findOne({
         where: { email },
       }); 
@@ -291,10 +296,11 @@ static async logout(req,res){
         Message: res.__('Password changed Successfully'),
       });
     }
-   catch(err){
-     
-       }
-  
-}
+   catch(error){
+    return res.status(500).json({
+      error: error.message,
+       })
+      }
+    }
 }
 export default register;

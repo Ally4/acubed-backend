@@ -8,7 +8,7 @@ import { validateSignin } from '../validations/signin';
 import validRole from '../validations/validRole';
 import { validation } from '../validations/updateProfile';
 import { validationErrorForgotten } from '../validations/validationErrorForgotten';
-import { validationErrorReset } from '../validations/validationErrorReset';
+import { validationErrorResetPassword } from '../validations/validationErrorReset';
 import { validationErrorVerifyCode } from '../validations/verifyTheCode';
 import isAdmin from '../middleware/isAdmin';
 // import isDriverOrOperator from '../middleware/isDriverOrOperator';
@@ -209,7 +209,7 @@ userController.verifyTheCode);
 *             description: newpassword is required.
 * */
 
-router.put('/reset-password', validationErrorReset, userController.resetPassword);
+router.put('/reset-password', validationErrorResetPassword, userController.resetPassword);
 /**
 * @swagger
 * /api/v1/auth/updateProfile:
