@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import i18n from 'i18n';
 import routes from './routers';
-import router from './routers/bus.routers';
 
 
 dotenv.config();
@@ -17,10 +16,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(routes);
 
-
-
-
-app.use(router);
 
 const port = process.env.PORT || 3020;
 

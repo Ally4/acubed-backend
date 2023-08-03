@@ -1,3 +1,4 @@
+// This is it
 import express from 'express';
 import userController from '../controllers/registcontroller';
 import checkUser from '../middleware/checkUser';
@@ -7,9 +8,10 @@ import { validateSignin } from '../validations/signin';
 import validRole from '../validations/validRole';
 import { validation } from '../validations/updateProfile';
 import { validationErrorForgotten } from '../validations/validationErrorForgotten';
-import { validationErrorReset } from '../validations/validationErrorReset';
+import { validationErrorResetPassword } from '../validations/validationErrorReset';
+import { validationErrorVerifyCode } from '../validations/verifyTheCode';
 import isAdmin from '../middleware/isAdmin';
-import isDriverOrOperator from '../middleware/isDriverOrOperator';
+// import isDriverOrOperator from '../middleware/isDriverOrOperator';
 
 const router = express.Router();
 
@@ -168,7 +170,46 @@ userController.forgot);
 *             description: newpassword is required.
 * */
 
-router.put('/reset-password/:resetToken', validationErrorReset, userController.resetPassword);
+router.post('/verify-code', 
+validationErrorVerifyCode, 
+userController.verifyTheCode);
+
+/**
+* @swagger
+* /api/v1/auth/reset-password/{resetToken}:
+*   put:
+*     tags:
+*       - Users
+*     name: reset password
+*     summary: reset user password
+*     produces:
+*       - application/json
+*     consumes:
+*       - application/json
+*     parameters:
+*       - name: resetToken
+*         in: path
+*         description: the address of resetting the password
+*     requestBody:
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             properties:
+*               newpassword:
+*                 type: string
+*                 example: 'put here your new password'
+*               confirmation:
+*                 type: string
+*                 example: 'confirm here your new password'
+*     responses:
+*       '200':
+*             description: password reset successfully.
+*       '400':
+*             description: newpassword is required.
+* */
+
+router.put('/reset-password', validationErrorResetPassword, userController.resetPassword);
 /**
 * @swagger
 * /api/v1/auth/updateProfile:

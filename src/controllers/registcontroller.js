@@ -21,13 +21,10 @@ class register {
       const {
         email,
         firstName,
-        lastName,
-        phoneNumber,  
-        dateOfBirth,
-        gender,
-        address,
+        lastName, 
         password,
         confirmPassword,
+        phoneNumber
       } = req.body;
       const id = uuidv4();
       const inSystem = await Users.findOne({
@@ -51,25 +48,19 @@ class register {
         email,
         firstName,
         lastName,
-        phoneNumber,  
-        dateOfBirth,
-        gender,
-        address,
         password: thePassword,
-        // role,
+        phoneNumber
       });
       const newUserDisplay = {
         id: newUser.id,
         email: newUser.email,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
-        phoneNumber: newUser.phoneNumber,
-        // dateOfBirth: newUser.dateOfBirth,
-        gender: newUser.gender,
-        // address: newUser.address,
-        // role: newUser.role
       };
-      // message(email);
+      
+      await Users.update({ isLoggedIn: true },
+        {where: { email } });
+
       return res.status(201).json({
         status: 201,
         message: res.__('user created successfully'),
@@ -79,6 +70,7 @@ class register {
       return res.status(500).json({ status: 500, message: error.message });
     }
   }
+  
   static async login(req, res) {
     const { email, password } = req.body;
     try {
@@ -91,10 +83,11 @@ class register {
           message: 'Wrong email, please enter the registered email.',
         });
       }
+
       if (!bcrypt.compareSync(password, user.password)) {
         return res.status(400).json({
           status: 400,
-          message: res.__('Wrong password, Please enter the registered password.'),
+          message: res.__('One of you credentials must be wrong, please verify your creadentials.'),
         });
       }
       const payload = { email, role: user.role };
@@ -109,7 +102,8 @@ class register {
       });
       return res.status(200).json({
         status: 200,
-        message: res.__('logged In successfull'),
+        name: user.lastName,
+        message: res.__('logged In successfully'),
         token: accessToken,
         userLoggedIn: LoggedInUser.isLoggedIn
       });
@@ -168,6 +162,7 @@ static async logout(req,res){
     }
   }
   static async getallusers(req, res) {
+    try {
     const users = await Users.findAll({
       where: {
         [Op.or]: [
@@ -185,7 +180,13 @@ static async logout(req,res){
         users,
       },
     });
+  }    catch(error) {   return res.status(500).json({
+    error: error.message,
+  })
   }
+}
+
+
   static async forgot(req, res) {
     try {
       const { email } = req.body;
@@ -205,69 +206,99 @@ static async logout(req,res){
       };
 
 
-
-
-      const resetToken = encode(payload);
-      await user.update({ resetlink: resetToken });
+      const randomNumber = (Math.floor(Math.random() * (9999 - 999 + 1) + 999)).toString();
+      await user.update({ resetlink: randomNumber });
       const forgottenMail = {
         to: email,
         from: 'el.ally741@gmail.com',
-        subject: 'Reseting of the password on phantom platform',
-        html: `<h2> Dear customer we are pleased to give you this link to reset your password, follow the instructions: </h2><h3>paste the whole link in in postman and send the request with the newpassword, using a json format</h3><p>localhost:3020/api/v1/auth/reset-password/${resetToken}</p>`,
+        subject: 'Reseting of the password on ACUBED platform',
+        html: `<h2> Dear customer we are pleased to give you this code to reset your password, </h2><h2>Enter the code into the application</h2><h1>${randomNumber}</h1>`,
       };
       mail.send(forgottenMail);
       return res.status(201).json({
         status: 201,
-        message: res.__('the link has been sent successfully to the provided email'),
+        message: res.__('The reset code has been sent to your email successfully'),
       });
     } catch (error) {
       return res.status(500).json({ status: 500, message: error.message });
     }
   }
 
-  static async resetPassword(req, res) {
+  static async verifyTheCode(req, res) {
     try{
-      const { newpassword } = req.body;
-      const { confirmation } = req.body;
-  
-      jwt.verify(
-        req.params.resetToken,
-        process.env.SECRET_KEY,
-        (error) => {
-          if (error) {
-            return res.status(401).json({ status: 401, message: res.__('Invalid or expired Token') });
-          }
-        },
-      );
+
+      const { code, email } = req.body;
+
       const user = await Users.findOne({
-        where: { resetlink: req.params.resetToken },
+        where: { email: email },
+      });
+
+      if (!user) {
+        return res
+          .status(400)
+          .json({ status: 400, message: res.__('The email is not in the system') });
       }
-      );
-    if (!user) {
+    if (code !== user.resetlink ) {
       return res.status(403).json({
         status: 403,
-        message: res.__('this user doesn`t exist in the system'),
+        message: res.__('The code is different from what we sent you to the email'),
       });
     }
+
+      return res.status(200).json({
+        status: 200,
+        Message: res.__('The code entered successfully'),
+      });
+    }
+   catch(err){
+    return res.status(500).json({
+      error: err.message,
+       })
+      }
+}
+
+  static async resetPassword(req, res) {
+    try{
+      const { newpassword, confirmation, email } = req.body;
+      const user = await Users.findOne({
+        where: { email },
+      }); 
+  
+      if (!user) {
+        return res
+          .status(400)
+          .json({ status: 400, message: res.__('The email is not in the system') });
+      }
+
       if (newpassword !== confirmation) {
         return res.status(400).json({
           status: 400,
           message: res.__('The password and its confirmation are not the same'),
         });
       }
+
       const cryption = bcrypt.hashSync(newpassword, 10);
   
-      await user.update({ password: cryption, resetlink: '' });
-  
+      await Users.update({ password: cryption, resetlink: '' }, {
+        where: { email }
+      });
+      const payload = { email, role: user.role };
+      const accessToken = encode(payload);
+
+      // Update user
+      await Users.update({ isLoggedIn: true },
+        {where: { email } });
       return res.status(200).json({
         status: 200,
         Message: res.__('Password changed Successfully'),
+        token: accessToken
       });
     }
-   catch(err){
-     
-       }
-  
-}
+   catch(error){
+    return res.status(500).json({
+      error: error.message,
+       })
+      }
+    }
 }
 export default register;

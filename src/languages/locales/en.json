@@ -67,5 +67,14 @@
 	"destination should be not less than 4 characters": "destination should be not less than 4 characters",
 	"destination is required": "destination is required",
 	"Check well the passwords you are inserting": "Check well the passwords you are inserting",
-	"Welcome to acubed, a platform to facilitate the transportation your samples for a great, faster and right testing!.": "Welcome to acubed, a platform to facilitate the transportation your samples for a great, faster and right testing!."
+	"Welcome to acubed, a platform to facilitate the transportation your samples for a great, faster and right testing!.": "Welcome to acubed, a platform to facilitate the transportation your samples for a great, faster and right testing!.",
+	"The email is not in the system": "The email is not in the system",
+	"The reset code has been sent to your link successfully": "The reset code has been sent to your link successfully",
+	"The reset code has been sent to your email successfully": "The reset code has been sent to your email successfully",
+	"The code is different from what we sent you to the email": "The code is different from what we sent you to the email",
+	"The code entered successfully": "The code entered successfully",
+	"Health facility created successfully": "Health facility created successfully",
+	"One of you credentials must be wrong, please verify your creadentials.": "One of you credentials must be wrong, please verify your creadentials.",
+	"logged In successfully": "logged In successfully",
+	"Test ordered successfully": "Test ordered successfully"
 }
