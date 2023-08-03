@@ -5,8 +5,7 @@ import mail from '@sendgrid/mail';
 
 
 
-const { orderFromOtherPlace } = Models;
-const {  Users } = Models;
+const  {OrderFromOtherPlaces, Users } = Models;
 class testOrderFromOtherPlace {
   static async create(req, res) {
     try {
@@ -18,22 +17,22 @@ class testOrderFromOtherPlace {
         district,
         phoneNumber
       } = req.body;
+
       const id = uuidv4();
 
       const user = await Users.findOne({
         where: { phoneNumber },
       }); 
       
-    const orderTest =  await orderFromOtherPlace.create({
-        id,
+    const orderTest =  await OrderFromOtherPlaces.create({
         name,
         sex,
-        age,  
+        age,
         city,
         district,
         phoneNumber
       });
-
+      
       const order = {
         to: user.email,
         from: 'el.ally741@gmail.com',
@@ -54,7 +53,6 @@ class testOrderFromOtherPlace {
         data: displayOrderFromOther,
       });
     } catch (error) {
-      console.log('this is the relation error', error)
       return res.status(500).json({ status: 500, message: error.message });
     }
   }

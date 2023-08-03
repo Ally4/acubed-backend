@@ -24,6 +24,7 @@ class register {
         lastName, 
         password,
         confirmPassword,
+        phoneNumber
       } = req.body;
       const id = uuidv4();
       const inSystem = await Users.findOne({
@@ -48,6 +49,7 @@ class register {
         firstName,
         lastName,
         password: thePassword,
+        phoneNumber
       });
       const newUserDisplay = {
         id: newUser.id,
