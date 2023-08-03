@@ -4,13 +4,13 @@ export const signup = Joi.object().keys({
   firstName: Joi.string().min(5).max(15).required(),
   lastName: Joi.string().min(5).max(15).required(),
   email: Joi.string().email().required(),
-  dateOfBirth: Joi.string().min(5).max(15).required(),
+  dateOfBirth: Joi.string().min(5).max(15),
   password: Joi.string().min(5).max(15).required(),
   confirmPassword: Joi.string().min(5).max(15).required(),
-  gender: Joi.string().min(3).max(15).required(),
-  address: Joi.string().min(5).max(15).required(),
-  phoneNumber: Joi.string().min(5).max(15).required(),
-  // role: Joi.string().min(3).max(15).required(),
+  gender: Joi.string().min(3).max(15),
+  address: Joi.string().min(5).max(15),
+  phoneNumber: Joi.string().min(5).max(15),
+  role: Joi.string().min(3).max(15),
 });
 
 export const validationError = (req, res, next) => {

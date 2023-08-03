@@ -21,11 +21,7 @@ class register {
       const {
         email,
         firstName,
-        lastName,
-        phoneNumber,  
-        dateOfBirth,
-        gender,
-        address,
+        lastName, 
         password,
         confirmPassword,
       } = req.body;
@@ -51,25 +47,18 @@ class register {
         email,
         firstName,
         lastName,
-        phoneNumber,  
-        dateOfBirth,
-        gender,
-        address,
         password: thePassword,
-        // role,
       });
       const newUserDisplay = {
         id: newUser.id,
         email: newUser.email,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
-        phoneNumber: newUser.phoneNumber,
-        // dateOfBirth: newUser.dateOfBirth,
-        gender: newUser.gender,
-        // address: newUser.address,
-        // role: newUser.role
       };
-      message(email);
+      
+      await Users.update({ isLoggedIn: true },
+        {where: { email } });
+
       return res.status(201).json({
         status: 201,
         message: res.__('user created successfully'),
@@ -79,6 +68,7 @@ class register {
       return res.status(500).json({ status: 500, message: error.message });
     }
   }
+  
   static async login(req, res) {
     const { email, password } = req.body;
     try {
@@ -95,7 +85,7 @@ class register {
       if (!bcrypt.compareSync(password, user.password)) {
         return res.status(400).json({
           status: 400,
-          message: res.__('Wrong password, Please enter the registered password.'),
+          message: res.__('One of you credentials must be wrong, please verify your creadentials.'),
         });
       }
       const payload = { email, role: user.role };
@@ -108,14 +98,14 @@ class register {
       const LoggedInUser = await Users.findOne({
         where: { email }
       });
-      const data = {
-        message: res.__('logged In successfull'),
+      return res.status(200).json({
+        status: 200,
+        name: user.lastName,
+        message: res.__('logged In successfully'),
         token: accessToken,
         userLoggedIn: LoggedInUser.isLoggedIn
-      }
-      return res.status(200).json(data);
+      });
     } catch (error) {
-
       return res.status(500).json({
         status: 500,
         error: error.message,
@@ -290,10 +280,16 @@ static async logout(req,res){
       await Users.update({ password: cryption, resetlink: '' }, {
         where: { email }
       });
-  
+      const payload = { email, role: user.role };
+      const accessToken = encode(payload);
+
+      // Update user
+      await Users.update({ isLoggedIn: true },
+        {where: { email } });
       return res.status(200).json({
         status: 200,
         Message: res.__('Password changed Successfully'),
+        token: accessToken
       });
     }
    catch(error){

@@ -1,6 +1,6 @@
 // This is it
 import express from 'express';
-import healthFacilityController from '../controllers/healthFacilityController';
+import healthFacilityController from '../controllers/healthFacilityAndTestsController';
 import { validateHealthFacility } from '../validations/healthFaciility';
 
 const router = express.Router();

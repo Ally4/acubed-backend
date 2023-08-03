@@ -73,5 +73,7 @@
 	"The reset code has been sent to your email successfully": "The reset code has been sent to your email successfully",
 	"The code is different from what we sent you to the email": "The code is different from what we sent you to the email",
 	"The code entered successfully": "The code entered successfully",
-	"Health facility created successfully": "Health facility created successfully"
+	"Health facility created successfully": "Health facility created successfully",
+	"One of you credentials must be wrong, please verify your creadentials.": "One of you credentials must be wrong, please verify your creadentials.",
+	"logged In successfully": "logged In successfully"
 }
