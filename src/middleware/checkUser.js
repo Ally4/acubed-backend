@@ -7,7 +7,7 @@ dotenv.config();
 
 const authentication = async (req, res, next) => {
   try {
-    const token = req.header('x-access-token');
+    const token = req.header('token');
 
     if (!token) return res.status(401).json({ status: 401, message: res.__('Please login') });
 

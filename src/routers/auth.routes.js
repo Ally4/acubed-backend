@@ -3,10 +3,10 @@ import express from 'express';
 import userController from '../controllers/registcontroller';
 import checkUser from '../middleware/checkUser';
 import users from '../controllers/users';
-import { validationError } from '../validations/signup';
+import { validationSignup } from '../validations/signup';
 import { validateSignin } from '../validations/signin';
 import validRole from '../validations/validRole';
-import { validation } from '../validations/updateProfile';
+import { validationUpdateProfil } from '../validations/updateProfile';
 import { validationErrorForgotten } from '../validations/validationErrorForgotten';
 import { validationErrorResetPassword } from '../validations/validationErrorReset';
 import { validationErrorVerifyCode } from '../validations/verifyTheCode';
@@ -100,7 +100,7 @@ router.post('/login', validateSignin, userController.login);
 router.post('/register', 
 // checkUser, 
 // isAdmin, 
-validationError,
+validationSignup,
  userController.signup);
 
 /**
@@ -251,7 +251,10 @@ router.put('/reset-password', validationErrorResetPassword, userController.reset
 *             description: Bad request.
 * */
 
-router.patch('/updateprofile', checkUser, validation, userController.updateProfile);
+router.patch('/update-profile', 
+checkUser, 
+validationUpdateProfil, 
+userController.updateProfile);
 
 /**
  * @swagger

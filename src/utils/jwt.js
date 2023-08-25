@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const secret = process.env.SECRET_KEY || 'jjjjjjjjjjjj';
+const secret = process.env.SECRET_KEY || 'yousaidthatIwontmakewiththehelpofAllahwatchmeout';
 
 export const decode = (token) => jwt.verify(token, secret);
 

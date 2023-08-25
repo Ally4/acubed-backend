@@ -52,6 +52,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "ci": "^1.0.0",
+    "cloudinary": "^1.40.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",

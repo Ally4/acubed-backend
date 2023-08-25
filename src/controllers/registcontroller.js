@@ -40,6 +40,9 @@ class register {
           .status(409)
           .json({ status: 409, message: res.__('The email is already in the system') });
       }
+
+      const payload = { email, name: firstName };
+      const accessToken = encode(payload);
       
       const thePassword = bcrypts.hashSync(password, 10);
 
@@ -90,7 +93,7 @@ class register {
           message: res.__('One of you credentials must be wrong, please verify your creadentials.'),
         });
       }
-      const payload = { email, role: user.role };
+      const payload = { email, role: user.role, name: user.firstName };
       const accessToken = encode(payload);
 
       // Update user
@@ -134,7 +137,9 @@ static async logout(req,res){
         error: error.message,
       });
     } }
-  // updating driver or operator profile
+    
+
+
   static async updateProfile(req, res) {
     try {
       const { email } = req.user;
@@ -144,6 +149,7 @@ static async logout(req,res){
         plain: true,
       });
       const userData = updatedField[1];
+      console.log("the user data", userData.firstName )
       return res.status(200).json({
         status: 200,
         message: 'user updated',
@@ -300,5 +306,6 @@ static async logout(req,res){
        })
       }
     }
-}
+
+    }
 export default register;

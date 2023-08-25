@@ -30,6 +30,9 @@ module.exports = {
       phoneNumber: {
         type: Sequelize.STRING,
       },
+      profilPicture: {
+        type: Sequelize.STRING,
+      },
       role: {
         type: Sequelize.STRING,
       },
