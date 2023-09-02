@@ -9,6 +9,7 @@ import Models from '../database/models';
 import { password } from '../utils/password';
 import { message } from '../utils/mails';
 import { encode } from '../utils/jwt';
+import cloudinary from '../cloudinary/cloudinary'
 
 const { Op } = require('sequelize');
 
@@ -149,6 +150,26 @@ static async logout(req,res){
         plain: true,
       });
       const userData = updatedField[1];
+
+
+      // for cloudinary image upload     there is a way of selecting a file using request dot file (req.file)
+      const {images} = req.body;
+      const uploadedImgs = images.map(async image=>{
+       const upload =  await cloudinary.uploader.upload(image,
+            { 
+              upload_preset: 'unsigned_upload',
+              allowed_formats : ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp'],
+          }, 
+            function(error, result) {
+                if(error){
+                    console.log(error)
+                }
+                 });
+        return upload
+      })
+
+
+
       console.log("the user data", userData.firstName )
       return res.status(200).json({
         status: 200,
@@ -161,12 +182,20 @@ static async logout(req,res){
           dateofbirth: userData.dateOfBirth,
           gender: userData.gender,
           address: userData.address,
+
+          // The upload of image
+          profilPicture: uploadedImgs
+
+
+
         },
       });
     } catch (error) {
       return res.status(500).send(error.message);
     }
   }
+
+
   static async getallusers(req, res) {
     try {
     const users = await Users.findAll({
