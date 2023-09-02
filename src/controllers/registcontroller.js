@@ -157,7 +157,7 @@ static async logout(req,res){
       const uploadedImgs = images.map(async image=>{
        const upload =  await cloudinary.uploader.upload(image,
             { 
-              upload_preset: 'unsigned_upload',
+              upload_preset: 'unsigned-preset',
               allowed_formats : ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp'],
           }, 
             function(error, result) {
