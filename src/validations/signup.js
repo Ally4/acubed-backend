@@ -1,15 +1,15 @@
 import Joi from '@hapi/joi';
 
 export const signup = Joi.object().keys({
-  firstName: Joi.string().min(5).max(15).required(),
-  lastName: Joi.string().min(5).max(15).required(),
-  email: Joi.string().email().required(),
+  firstName: Joi.string(),
+  lastName: Joi.string(),
+  email: Joi.string(),
   dateOfBirth: Joi.string().min(5).max(15),
-  password: Joi.string().min(5).max(15).required(),
-  confirmPassword: Joi.string().min(5).max(15).required(),
+  password: Joi.string(),
+  confirmPassword: Joi.string(),
   gender: Joi.string().min(3).max(15),
   address: Joi.string().min(5).max(15),
-  phoneNumber: Joi.string().min(5).max(15).required(),
+  phoneNumber: Joi.string(),
   role: Joi.string().min(3).max(15),
 });
 
