@@ -11,7 +11,11 @@ import { validationErrorForgotten } from '../validations/validationErrorForgotte
 import { validationErrorResetPassword } from '../validations/validationErrorReset';
 import { validationErrorVerifyCode } from '../validations/verifyTheCode';
 import isAdmin from '../middleware/isAdmin';
+import multer from 'multer';
 // import isDriverOrOperator from '../middleware/isDriverOrOperator';
+
+
+const upload = multer({dest: 'uploads/'});
 
 const router = express.Router();
 
@@ -253,7 +257,8 @@ router.put('/reset-password', validationErrorResetPassword, userController.reset
 
 router.patch('/update-profile', 
 checkUser, 
-validationUpdateProfil, 
+validationUpdateProfil,
+upload.single('image'),
 userController.updateProfile);
 
 /**

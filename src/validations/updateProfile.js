@@ -8,7 +8,8 @@ export const signup = Joi.object().keys({
   gender: Joi.string().min(1).max(15),
   address: Joi.string().min(1).max(15),
   phoneNumber: Joi.string().min(1).max(15),
-  profilPicture: Joi.string().min(1).max(200),
+  profilPicture: Joi.string().min(1).max(500),
+  images: Joi.string().min(1).max(500),
   role: Joi.string().min(1).max(15),
 });
 

@@ -10,7 +10,7 @@ export const signup = Joi.object().keys({
   gender: Joi.string().min(3).max(15),
   address: Joi.string().min(5).max(15),
   phoneNumber: Joi.string().min(5).max(15).required(),
-  profilPicture: Joi.string().min(5).max(200).required(),
+  profilPicture: Joi.string().min(5).max(200),
   role: Joi.string().min(3).max(15),
 });
 

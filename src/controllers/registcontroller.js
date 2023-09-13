@@ -10,12 +10,24 @@ import { password } from '../utils/password';
 import { message } from '../utils/mails';
 import { encode } from '../utils/jwt';
 import cloudinary from '../cloudinary/cloudinary'
+const fs = require('fs');
 
 const { Op } = require('sequelize');
 
 dotenv.config();
 mail.setApiKey(process.env.SENDGRID);
 const { Users } = Models;
+
+const uploadImage = async (file) => {
+  try {
+    const result = await cloudinary.uploader.upload(file.path);
+    return result;
+  } catch (error) {
+    console.error('error uploading image to cloudinary', error);
+    throw error;
+  }
+}
+
 class register {
   static async signup(req, res) {
     try {
@@ -60,6 +72,7 @@ class register {
         email: newUser.email,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
+        token: accessToken,
       };
       
       await Users.update({ isLoggedIn: true },
@@ -68,7 +81,11 @@ class register {
       return res.status(201).json({
         status: 201,
         message: res.__('user created successfully'),
-        data: newUserDisplay,
+        id: newUser.id,
+        email: newUser.email,
+        firstName: newUser.firstName,
+        name: newUser.lastName,
+        token: accessToken,
       });
     } catch (error) {
       return res.status(500).json({ status: 500, message: error.message });
@@ -151,26 +168,11 @@ static async logout(req,res){
       });
       const userData = updatedField[1];
 
-
       // for cloudinary image upload     there is a way of selecting a file using request dot file (req.file)
-      const {images} = req.body;
-      const uploadedImgs = images.map(async image=>{
-       const upload =  await cloudinary.uploader.upload(image,
-            { 
-              upload_preset: 'unsigned-preset',
-              allowed_formats : ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp'],
-          }, 
-            function(error, result) {
-                if(error){
-                    console.log(error)
-                }
-                 });
-        return upload
-      })
+      const result = await uploadImage(req.file);
+      console.log('result', result);
 
 
-
-      console.log("the user data", userData.firstName )
       return res.status(200).json({
         status: 200,
         message: 'user updated',
@@ -183,14 +185,15 @@ static async logout(req,res){
           gender: userData.gender,
           address: userData.address,
 
-          // The upload of image
-          profilPicture: uploadedImgs
+          // have to up on profilPicture result.secure_url
+          profilPicture: result.secure_url
 
 
 
         },
       });
     } catch (error) {
+      console.log("================================== the error", error)
       return res.status(500).send(error.message);
     }
   }
@@ -215,7 +218,8 @@ static async logout(req,res){
         users,
       },
     });
-  }    catch(error) {   return res.status(500).json({
+  }    catch(error) {  
+    return res.status(500).json({
     error: error.message,
   })
   }
@@ -234,24 +238,35 @@ static async logout(req,res){
           .json({ status: 400, message: res.__('The email is not in the system') });
       }
 
-      const payload = {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      };
+      // const payload = {
+      //   id: user.id,
+      //   email: user.email,
+      //   role: user.role,
+      // };
+
+
+      const payload = { email, role: user.role, name: user.firstName };
+      const accessToken = encode(payload);
+
+      // Update user
+      await Users.update({ isLoggedIn: true },
+        {where: { email } });
+
+
 
 
       const randomNumber = (Math.floor(Math.random() * (9999 - 999 + 1) + 999)).toString();
       await user.update({ resetlink: randomNumber });
       const forgottenMail = {
         to: email,
-        from: 'el.ally741@gmail.com',
+        from: process.env.EMAIL_FROM,
         subject: 'Reseting of the password on ACUBED platform',
         html: `<h2> Dear customer we are pleased to give you this code to reset your password, </h2><h2>Enter the code into the application</h2><h1>${randomNumber}</h1>`,
       };
       mail.send(forgottenMail);
       return res.status(201).json({
         status: 201,
+        token: accessToken,
         message: res.__('The reset code has been sent to your email successfully'),
       });
     } catch (error) {
@@ -268,6 +283,17 @@ static async logout(req,res){
         where: { email: email },
       });
 
+
+
+      const payload = { email, role: user.role, name: user.firstName };
+      const accessToken = encode(payload);
+
+      // Update user
+      await Users.update({ isLoggedIn: true },
+        {where: { email } });
+
+
+
       if (!user) {
         return res
           .status(400)
@@ -282,6 +308,7 @@ static async logout(req,res){
 
       return res.status(200).json({
         status: 200,
+        token: accessToken,
         Message: res.__('The code entered successfully'),
       });
     }
