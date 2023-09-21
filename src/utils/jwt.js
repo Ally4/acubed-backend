@@ -7,9 +7,9 @@ const secret = process.env.SECRET_KEY || 'yousaidthatIwontmakewiththehelpofAllah
 
 export const decode = (token) => jwt.verify(token, secret);
 
-export const encode = (payload) => jwt.sign({ payload }, secret, { expiresIn: '1h' });
+export const encode = (payload) => jwt.sign({ payload }, secret);
 
-export const encodeExpire = (payload) => jwt.sign({ payload }, secret, { expiresIn: '0.0001s' });
+export const encodeExpire = (payload) => jwt.sign({ payload }, secret);
 
 // export const generateRandomNumbers = () => {
 //     const randomNumbers = [];

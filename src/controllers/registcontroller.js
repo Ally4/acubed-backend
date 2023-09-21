@@ -32,16 +32,17 @@ class register {
   static async signup(req, res) {
     try {
       const {
-        email,
-        firstName,
-        lastName, 
+        user,
+        // email,
+        // firstName,
+        // lastName, 
         password,
         confirmPassword,
-        phoneNumber
+        // phoneNumber
       } = req.body;
       const id = uuidv4();
       const inSystem = await Users.findOne({
-        where: { email },
+        where: { user },
       });
       if (password !== confirmPassword) {
         return res
@@ -54,37 +55,39 @@ class register {
           .json({ status: 409, message: res.__('The email is already in the system') });
       }
 
-      const payload = { email, name: firstName };
+      const payload = { user };
       const accessToken = encode(payload);
       
       const thePassword = bcrypts.hashSync(password, 10);
 
       const newUser = await Users.create({
         id,
-        email,
-        firstName,
-        lastName,
+        user,
+        // email,
+        // firstName,
+        // lastName,
         password: thePassword,
-        phoneNumber
+        // phoneNumber
       });
-      const newUserDisplay = {
-        id: newUser.id,
-        email: newUser.email,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        token: accessToken,
-      };
+      // const newUserDisplay = {
+      //   id: newUser.id,
+      //   email: newUser.email,
+      //   firstName: newUser.firstName,
+      //   lastName: newUser.lastName,
+      //   token: accessToken,
+      // };
       
-      await Users.update({ isLoggedIn: true },
-        {where: { email } });
+      // await Users.update({ isLoggedIn: true },
+      //   {where: { email } });
 
       return res.status(201).json({
         status: 201,
         message: res.__('user created successfully'),
         id: newUser.id,
-        email: newUser.email,
-        firstName: newUser.firstName,
-        name: newUser.lastName,
+        user: newUser.user,
+        // email: newUser.email,
+        // firstName: newUser.firstName,
+        // name: newUser.lastName,
         token: accessToken,
       });
     } catch (error) {
@@ -93,33 +96,33 @@ class register {
   }
   
   static async login(req, res) {
-    const { email, password } = req.body;
+    const { user, password } = req.body;
     try {
-      const user = await Users.findOne({
-        where: { email },
+      const isUser = await Users.findOne({
+        where: { user },
       });
-      if (!user) {
+      if (!isUser) {
         return res.status(404).json({
           status: 404,
           message: 'Wrong email, please enter the registered email.',
         });
       }
 
-      if (!bcrypt.compareSync(password, user.password)) {
+      if (!bcrypt.compareSync(password, isUser.password)) {
         return res.status(400).json({
           status: 400,
           message: res.__('One of you credentials must be wrong, please verify your creadentials.'),
         });
       }
-      const payload = { email, role: user.role, name: user.firstName };
+      const payload = { user };
       const accessToken = encode(payload);
 
       // Update user
       await Users.update({ isLoggedIn: true },
-        {where: { email } });
+        {where: { user } });
 
       const LoggedInUser = await Users.findOne({
-        where: { email }
+        where: { user }
       });
       return res.status(200).json({
         status: 200,
@@ -160,18 +163,16 @@ static async logout(req,res){
 
   static async updateProfile(req, res) {
     try {
-      const { email } = req.user;
+      const { user } = req.user;
       const updatedField = await Users.update(req.body, {
-        where: { email },
+        where: { user },
         returning: true,
         plain: true,
       });
       const userData = updatedField[1];
 
-      // for cloudinary image upload     there is a way of selecting a file using request dot file (req.file)
-      const result = await uploadImage(req.file);
-      console.log('result', result);
-
+      // for cloudinary image upload 
+      const result = await uploadImage(req.file, {folder:'acubed-profil-pictures'});
 
       return res.status(200).json({
         status: 200,
@@ -193,7 +194,6 @@ static async logout(req,res){
         },
       });
     } catch (error) {
-      console.log("================================== the error", error)
       return res.status(500).send(error.message);
     }
   }

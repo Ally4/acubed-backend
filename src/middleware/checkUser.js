@@ -13,7 +13,9 @@ const authentication = async (req, res, next) => {
 
     const user = decode(token);
 
-    const activeUser = await Users.findOne({ where: { email: user.payload.email } });
+    const activeUser = await Users.findOne({ where: { user: user.payload.user } });
+
+    // const activeUser = await Users.findOne({ where: { email: user.payload.email } });
 
     if (activeUser.isLoggedIn === false) {
       return res.status(409).json({ status: 409, message: res.__('you are not logged in') });
