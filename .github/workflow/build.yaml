@@ -1,0 +1,9 @@
+name: Deploy and build the backend of acubed
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  

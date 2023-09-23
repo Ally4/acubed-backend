@@ -9,26 +9,40 @@ import Models from '../database/models';
 import { password } from '../utils/password';
 import { message } from '../utils/mails';
 import { encode } from '../utils/jwt';
+import cloudinary from '../cloudinary/cloudinary'
+const fs = require('fs');
 
 const { Op } = require('sequelize');
 
 dotenv.config();
 mail.setApiKey(process.env.SENDGRID);
 const { Users } = Models;
+
+const uploadImage = async (file) => {
+  try {
+    const result = await cloudinary.uploader.upload(file.path, {folder:'acubed-profil-pictures'});
+    return result;
+  } catch (error) {
+    console.error('error uploading image to cloudinary', error);
+    throw error;
+  }
+}
+
 class register {
   static async signup(req, res) {
     try {
       const {
-        email,
-        firstName,
-        lastName, 
+        user,
+        // email,
+        // firstName,
+        // lastName, 
         password,
         confirmPassword,
-        phoneNumber
+        // phoneNumber
       } = req.body;
       const id = uuidv4();
       const inSystem = await Users.findOne({
-        where: { email },
+        where: { user },
       });
       if (password !== confirmPassword) {
         return res
@@ -40,31 +54,41 @@ class register {
           .status(409)
           .json({ status: 409, message: res.__('The email is already in the system') });
       }
+
+      const payload = { user };
+      const accessToken = encode(payload);
       
       const thePassword = bcrypts.hashSync(password, 10);
 
       const newUser = await Users.create({
         id,
-        email,
-        firstName,
-        lastName,
+        user,
+        // email,
+        // firstName,
+        // lastName,
         password: thePassword,
-        phoneNumber
+        // phoneNumber
       });
-      const newUserDisplay = {
-        id: newUser.id,
-        email: newUser.email,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-      };
+      // const newUserDisplay = {
+      //   id: newUser.id,
+      //   email: newUser.email,
+      //   firstName: newUser.firstName,
+      //   lastName: newUser.lastName,
+      //   token: accessToken,
+      // };
       
-      await Users.update({ isLoggedIn: true },
-        {where: { email } });
+      // await Users.update({ isLoggedIn: true },
+      //   {where: { email } });
 
       return res.status(201).json({
         status: 201,
         message: res.__('user created successfully'),
-        data: newUserDisplay,
+        id: newUser.id,
+        user: newUser.user,
+        // email: newUser.email,
+        // firstName: newUser.firstName,
+        // name: newUser.lastName,
+        token: accessToken,
       });
     } catch (error) {
       return res.status(500).json({ status: 500, message: error.message });
@@ -72,33 +96,33 @@ class register {
   }
   
   static async login(req, res) {
-    const { email, password } = req.body;
+    const { user, password } = req.body;
     try {
-      const user = await Users.findOne({
-        where: { email },
+      const isUser = await Users.findOne({
+        where: { user },
       });
-      if (!user) {
+      if (!isUser) {
         return res.status(404).json({
           status: 404,
           message: 'Wrong email, please enter the registered email.',
         });
       }
 
-      if (!bcrypt.compareSync(password, user.password)) {
+      if (!bcrypt.compareSync(password, isUser.password)) {
         return res.status(400).json({
           status: 400,
           message: res.__('One of you credentials must be wrong, please verify your creadentials.'),
         });
       }
-      const payload = { email, role: user.role };
+      const payload = { user };
       const accessToken = encode(payload);
 
       // Update user
       await Users.update({ isLoggedIn: true },
-        {where: { email } });
+        {where: { user } });
 
       const LoggedInUser = await Users.findOne({
-        where: { email }
+        where: { user }
       });
       return res.status(200).json({
         status: 200,
@@ -134,16 +158,24 @@ static async logout(req,res){
         error: error.message,
       });
     } }
-  // updating driver or operator profile
+    
+
+
   static async updateProfile(req, res) {
     try {
-      const { email } = req.user;
+      const { user } = req.user;
       const updatedField = await Users.update(req.body, {
-        where: { email },
+        where: { user },
         returning: true,
         plain: true,
       });
       const userData = updatedField[1];
+
+      // for cloudinary image upload 
+      const result = await uploadImage(req.file
+        // , {folder:'acubed-profil-pictures'}
+        );
+
       return res.status(200).json({
         status: 200,
         message: 'user updated',
@@ -155,12 +187,20 @@ static async logout(req,res){
           dateofbirth: userData.dateOfBirth,
           gender: userData.gender,
           address: userData.address,
+
+          // have to up on profilPicture result.secure_url
+          profilPicture: result.secure_url
+
+
+
         },
       });
     } catch (error) {
       return res.status(500).send(error.message);
     }
   }
+
+
   static async getallusers(req, res) {
     try {
     const users = await Users.findAll({
@@ -180,7 +220,8 @@ static async logout(req,res){
         users,
       },
     });
-  }    catch(error) {   return res.status(500).json({
+  }    catch(error) {  
+    return res.status(500).json({
     error: error.message,
   })
   }
@@ -199,24 +240,35 @@ static async logout(req,res){
           .json({ status: 400, message: res.__('The email is not in the system') });
       }
 
-      const payload = {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      };
+      // const payload = {
+      //   id: user.id,
+      //   email: user.email,
+      //   role: user.role,
+      // };
+
+
+      const payload = { email, role: user.role, name: user.firstName };
+      const accessToken = encode(payload);
+
+      // Update user
+      await Users.update({ isLoggedIn: true },
+        {where: { email } });
+
+
 
 
       const randomNumber = (Math.floor(Math.random() * (9999 - 999 + 1) + 999)).toString();
       await user.update({ resetlink: randomNumber });
       const forgottenMail = {
         to: email,
-        from: 'el.ally741@gmail.com',
+        from: process.env.EMAIL_FROM,
         subject: 'Reseting of the password on ACUBED platform',
         html: `<h2> Dear customer we are pleased to give you this code to reset your password, </h2><h2>Enter the code into the application</h2><h1>${randomNumber}</h1>`,
       };
       mail.send(forgottenMail);
       return res.status(201).json({
         status: 201,
+        token: accessToken,
         message: res.__('The reset code has been sent to your email successfully'),
       });
     } catch (error) {
@@ -233,6 +285,17 @@ static async logout(req,res){
         where: { email: email },
       });
 
+
+
+      const payload = { email, role: user.role, name: user.firstName };
+      const accessToken = encode(payload);
+
+      // Update user
+      await Users.update({ isLoggedIn: true },
+        {where: { email } });
+
+
+
       if (!user) {
         return res
           .status(400)
@@ -247,6 +310,7 @@ static async logout(req,res){
 
       return res.status(200).json({
         status: 200,
+        token: accessToken,
         Message: res.__('The code entered successfully'),
       });
     }
@@ -300,5 +364,6 @@ static async logout(req,res){
        })
       }
     }
-}
+
+    }
 export default register;

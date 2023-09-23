@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import i18n from 'i18n';
 import routes from './routers';
+// const fileUpload = require('express-fileupload');
 
 
 dotenv.config();
@@ -17,7 +18,13 @@ app.use(bodyParser.json());
 app.use(routes);
 
 
-const port = process.env.PORT || 3020;
+// app.use(fileUpload());
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({extended: true , limit: '50mb'}))
+
+
+const port = process.env.PORT || 6789;
 
 app.listen(port, () => {
   console.log(port);

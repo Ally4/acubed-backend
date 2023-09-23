@@ -3,15 +3,19 @@ import express from 'express';
 import userController from '../controllers/registcontroller';
 import checkUser from '../middleware/checkUser';
 import users from '../controllers/users';
-import { validationError } from '../validations/signup';
+import { validationSignup } from '../validations/signup';
 import { validateSignin } from '../validations/signin';
 import validRole from '../validations/validRole';
-import { validation } from '../validations/updateProfile';
+import { validationUpdateProfil } from '../validations/updateProfile';
 import { validationErrorForgotten } from '../validations/validationErrorForgotten';
 import { validationErrorResetPassword } from '../validations/validationErrorReset';
 import { validationErrorVerifyCode } from '../validations/verifyTheCode';
 import isAdmin from '../middleware/isAdmin';
+import multer from 'multer';
 // import isDriverOrOperator from '../middleware/isDriverOrOperator';
+
+
+const upload = multer({dest: 'uploads/'});
 
 const router = express.Router();
 
@@ -100,7 +104,7 @@ router.post('/login', validateSignin, userController.login);
 router.post('/register', 
 // checkUser, 
 // isAdmin, 
-validationError,
+validationSignup,
  userController.signup);
 
 /**
@@ -251,7 +255,11 @@ router.put('/reset-password', validationErrorResetPassword, userController.reset
 *             description: Bad request.
 * */
 
-router.patch('/updateprofile', checkUser, validation, userController.updateProfile);
+router.patch('/update-profile', 
+checkUser, 
+validationUpdateProfil,
+upload.single('image'),
+userController.updateProfile);
 
 /**
  * @swagger

@@ -2,6 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import Models from '../database/models';
 import mail from '@sendgrid/mail';
+import dotenv from 'dotenv';
 
 
 
@@ -36,9 +37,9 @@ class testOrderFromHospital {
       });
 
       const order = {
-        to: user.email,
-        from: 'el.ally741@gmail.com',
-        subject: 'Reseting of the password on ACUBED platform',
+        to: process.env.EMAIL_TO,
+        from: user.email,
+        subject: 'Thank you for ordering your test with us',
         html: `<h2> Dear customer to proceed you can pay to this number 0784403223 </h2>`,
       };
       mail.send(order);

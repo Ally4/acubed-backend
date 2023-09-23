@@ -1,7 +1,7 @@
 import Joi from '@hapi/joi';
 export const signin = Joi.object().keys({
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  user: Joi.string().trim().required(),
+  password: Joi.string().trim().required(),
 });
 export const validateSignin = (req, res, next) => {
   const { error } = signin.validate(req.body);

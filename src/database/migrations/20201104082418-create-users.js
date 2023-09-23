@@ -6,6 +6,9 @@ module.exports = {
         primaryKey: true,
         allowNull: false,
       },
+      user: {
+        type: Sequelize.STRING,
+      },
       firstName: {
         type: Sequelize.STRING,
       },
@@ -28,6 +31,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       phoneNumber: {
+        type: Sequelize.STRING,
+      },
+      profilPicture: {
         type: Sequelize.STRING,
       },
       role: {
