@@ -20,7 +20,7 @@ const { Users } = Models;
 
 const uploadImage = async (file) => {
   try {
-    const result = await cloudinary.uploader.upload(file.path);
+    const result = await cloudinary.uploader.upload(file.path, {folder:'acubed-profil-pictures'});
     return result;
   } catch (error) {
     console.error('error uploading image to cloudinary', error);
@@ -172,7 +172,9 @@ static async logout(req,res){
       const userData = updatedField[1];
 
       // for cloudinary image upload 
-      const result = await uploadImage(req.file, {folder:'acubed-profil-pictures'});
+      const result = await uploadImage(req.file
+        // , {folder:'acubed-profil-pictures'}
+        );
 
       return res.status(200).json({
         status: 200,
