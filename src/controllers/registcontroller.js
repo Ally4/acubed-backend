@@ -77,8 +77,8 @@ class register {
       //   token: accessToken,
       // };
       
-      // await Users.update({ isLoggedIn: true },
-      //   {where: { email } });
+      await Users.update({ isLoggedIn: true },
+        {where: { user } });
 
       return res.status(201).json({
         status: 201,
@@ -174,6 +174,11 @@ static async logout(req,res){
       // for cloudinary image upload 
       const result = await uploadImage(req.file
         // , {folder:'acubed-profil-pictures'}
+        );
+
+        await Users.update(
+          {profilPicture: result.secure_url},
+          {where: { user }},
         );
 
       return res.status(200).json({
