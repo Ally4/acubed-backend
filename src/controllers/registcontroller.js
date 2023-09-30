@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import axios from 'axios';
 import mail from '@sendgrid/mail';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcryptjs';
@@ -80,6 +81,16 @@ class register {
       await Users.update({ isLoggedIn: true },
         {where: { user } });
 
+
+        const url = "https://acubed-backend-production.up.railway.app/api/v1/auth/register";
+
+        const headers = {
+          'Authorization': `${accessToken}`,
+          'Content-Type': 'application/json',
+        };
+
+        axios.post(url, { headers });
+
       return res.status(201).json({
         status: 201,
         message: res.__('user created successfully'),
@@ -111,7 +122,7 @@ class register {
       if (!bcrypt.compareSync(password, isUser.password)) {
         return res.status(400).json({
           status: 400,
-          message: res.__('One of you credentials must be wrong, please verify your creadentials.'),
+          message: res.__('One of you credentials must be wrong, please verify your credentials.'),
         });
       }
       const payload = { user };
@@ -124,6 +135,18 @@ class register {
       const LoggedInUser = await Users.findOne({
         where: { user }
       });
+
+
+      const url = "https://acubed-backend-production.up.railway.app/api/v1/auth/register";
+
+      const headers = {
+        'Authorization': `${accessToken}`,
+        'Content-Type': 'application/json',
+      };
+
+      axios.post(url, { headers });
+
+
       return res.status(200).json({
         status: 200,
         name: user.lastName,
