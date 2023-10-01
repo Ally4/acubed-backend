@@ -256,7 +256,7 @@ router.put('/reset-password', validationErrorResetPassword, userController.reset
 * */
 
 router.patch('/update-profile', 
-checkUser, 
+// checkUser, 
 validationUpdateProfil,
 upload.single('image'),
 userController.updateProfile);
