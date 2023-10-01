@@ -24,7 +24,7 @@ const uploadImage = async (file) => {
     const result = await cloudinary.uploader.upload(file.path, {folder:'acubed-profil-pictures'});
     return result;
   } catch (error) {
-    console.error('error uploading image to cloudinary', error);
+    // console.error('error uploading image to cloudinary', error);
     throw error;
   }
 }
@@ -81,16 +81,6 @@ class register {
       await Users.update({ isLoggedIn: true },
         {where: { user } });
 
-
-        const url = "https://acubed-backend-production.up.railway.app/api/v1/auth/register";
-
-        const headers = {
-          'Authorization': `${accessToken}`,
-          'Content-Type': 'application/json',
-        };
-
-        axios.post(url, { headers });
-
       return res.status(201).json({
         status: 201,
         message: res.__('user created successfully'),
@@ -135,17 +125,6 @@ class register {
       const LoggedInUser = await Users.findOne({
         where: { user }
       });
-
-
-      const url = "https://acubed-backend-production.up.railway.app/api/v1/auth/register";
-
-      const headers = {
-        'Authorization': `${accessToken}`,
-        'Content-Type': 'application/json',
-      };
-
-      axios.post(url, { headers });
-
 
       return res.status(200).json({
         status: 200,
