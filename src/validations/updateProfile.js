@@ -10,20 +10,11 @@ export const signup = Joi.object().keys({
   phoneNumber: Joi.string().min(1).max(15),
   profilPicture: Joi.string().min(1).max(500),
   images: Joi.string().min(1).max(500),
-  // image: Joi.string().min(1).max(500),
+  image: Joi.string().min(1).max(500),
   role: Joi.string().min(1).max(15),
 });
 
 export const validationUpdateProfil = (req, res, next) => {
-  // const val = {
-  //   firstName,
-  //   lastName,
-  //   email,
-  //   dateOfBirth,
-  //   gender,
-  //   address,
-  //   phoneNumber: req.body
-  // }
   const { error } = signup.validate(req.body);
  console.log(`this is error ${JSON.stringify(req.body)}`);
  console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu", error)
