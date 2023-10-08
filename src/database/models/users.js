@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
     profilPicture: DataTypes.STRING,
+    image: DataTypes.STRING,
     role: DataTypes.STRING,
     isLoggedIn: DataTypes.BOOLEAN,
     resetlink: DataTypes.STRING(2000),
