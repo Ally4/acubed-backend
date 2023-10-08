@@ -36,9 +36,6 @@ module.exports = {
       profilPicture: {
         type: Sequelize.STRING,
       },
-      image: {
-        type: Sequelize.STRING,
-      },
       role: {
         type: Sequelize.STRING,
       },

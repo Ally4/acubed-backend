@@ -10,7 +10,6 @@ export const signup = Joi.object().keys({
   phoneNumber: Joi.string().min(1).max(15),
   profilPicture: Joi.string().min(1).max(500),
   images: Joi.string().min(1).max(500),
-  image: Joi.string().min(1).max(500),
   role: Joi.string().min(1).max(15),
 });
 
