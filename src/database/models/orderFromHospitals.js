@@ -13,13 +13,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   orderFromHospitals.init({
-    name: DataTypes.STRING,
+    nameOfTest: DataTypes.STRING,
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
     sex: DataTypes.STRING,
     age: DataTypes.STRING,
-    hospitalName: DataTypes.STRING,
-    department: DataTypes.STRING,
-    roomNumber: DataTypes.STRING,
+    accessPoint: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
+    payment: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'orderFromHospitals',
