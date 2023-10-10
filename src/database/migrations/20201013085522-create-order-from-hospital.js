@@ -8,7 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      nameOfTest: {
+        type: Sequelize.STRING,
+      },
+      firstName: {
+        type: Sequelize.STRING,
+      },
+      lastName: {
         type: Sequelize.STRING,
       },
       sex: {
@@ -17,16 +23,13 @@ module.exports = {
       age: {
         type: Sequelize.STRING
       },
-      hospitalName: {
-        type: Sequelize.STRING
-      },
-      department: {
-        type: Sequelize.STRING
-      },
-      roomNumber: {
+      accessPoint: {
         type: Sequelize.STRING
       },
       phoneNumber: {
+        type: Sequelize.STRING
+      },
+      payment: {
         type: Sequelize.STRING
       },
       createdAt: {

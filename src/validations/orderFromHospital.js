@@ -1,13 +1,14 @@
 import Joi from '@hapi/joi';
 
 export const orderFromHospital = Joi.object().keys({
-  name: Joi.string().max(15).required(),
-  sex: Joi.string().max(15).required(),
-  age: Joi.string().required(),
-  hospitalName: Joi.string().max(15).required(),
-  department: Joi.string().max(15).required(),
-  roomNumber: Joi.string().max(15).required(),
-  phoneNumber: Joi.string().min(5).max(15).required(),
+  nameOfTest: Joi.string().max(15),
+  firstName: Joi.string().max(15),
+  lastName: Joi.string(),
+  sex: Joi.string().max(150),
+  age: Joi.string().max(150),
+  accessPoint: Joi.string().max(150),
+  phoneNumber: Joi.string().min(1).max(150),
+  payment: Joi.string().min(1).max(150),
 });
 
 export const validationErrorOrderHospital = (req, res, next) => {
