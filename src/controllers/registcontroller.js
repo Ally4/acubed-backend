@@ -128,7 +128,7 @@ class register {
 
       return res.status(200).json({
         status: 200,
-        name: user.lastName,
+        name: req.body.user,
         message: res.__('logged In successfully'),
         token: accessToken,
         userLoggedIn: LoggedInUser.isLoggedIn
