@@ -38,15 +38,15 @@ class testOrderFromHospital {
         payment,
       });
 
-      const order = {
-        from: process.env.EMAIL_FROM,
-        to: user.email,
-        // to: process.env.EMAIL_TO,
-        // from: user.email,
-        subject: 'Thank you for ordering your test with us',
-        html: `<h2> Dear customer to proceed you can pay to this number 0941841870 </h2>`,
-      };
-      mail.send(order);
+      // const order = {
+      //   from: process.env.EMAIL_FROM,
+      //   to: user.email,
+      //   // to: process.env.EMAIL_TO,
+      //   // from: user.email,
+      //   subject: 'Thank you for ordering your test with us',
+      //   html: `<h2> Dear customer to proceed you can pay to this number 0941841870 </h2>`,
+      // };
+      // mail.send(order);
 
       const displayOrderFromHospital = {
         nameOfTest,
