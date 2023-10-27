@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     department: DataTypes.STRING,
     particularDoctor: DataTypes.STRING,
     rendezVous: DataTypes.STRING,
+    status: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'bookAppointments',

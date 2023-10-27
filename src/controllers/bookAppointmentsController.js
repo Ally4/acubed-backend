@@ -1,4 +1,3 @@
-
 import { v4 as uuidv4 } from 'uuid';
 import Models from '../database/models';
 import mail from '@sendgrid/mail';
@@ -7,8 +6,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { orderAppointments, Users } = Models;
-class bookAppointments {
+const { bookAppointments } = Models;
+class bookAppointment {
   static async create(req, res) {
     try {
       const {
@@ -26,12 +25,7 @@ class bookAppointments {
       } = req.body;
       const id = uuidv4();
 
-
-      const user = await Users.findOne({
-        where: { phoneNumber },
-      });      
-
-      const orderTest =  await orderAppointments.create({
+      const bookAnAppointment =  await bookAppointments.create({
         firstName,
         lastName,
         phoneNumber,
@@ -55,16 +49,16 @@ class bookAppointments {
       };
       mail.send(order);
 
-      const displayOrderFromHospital = {
-        nameOfTest,
+      const booking = {
         firstName,
         phoneNumber,
+        HealthFacility,
       };
       
       return res.status(201).json({
         status: 201,
-        message: res.__('Test ordered successfully'),
-        data: displayOrderFromHospital,
+        message: res.__('Your rendez-vous has been successfully booked'),
+        data: booking,
       });
     } catch (error) {
       console.log('this is the relation error', error)
@@ -73,4 +67,4 @@ class bookAppointments {
   }
 }
 
-export default bookAppointments;
+export default bookAppointment;

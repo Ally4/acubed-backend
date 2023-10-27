@@ -1,11 +1,10 @@
-
 import { v4 as uuidv4 } from 'uuid';
 import Models from '../database/models';
 import mail from '@sendgrid/mail';
 import dotenv from 'dotenv';
-import nodemailer from 'nodemailer';
 
 
+dotenv.config();
 
 const { orderFromHospitals, Users } = Models;
 class testOrderFromHospital {

@@ -1,7 +1,7 @@
 // This is it
 import express from 'express';
 import { validationErrorBookAppointments } from '../validations/bookAppointmentValidation';
-import bookAppointments from '../controllers/bookAppointmentsController';
+import bookAppointment from '../controllers/bookAppointmentsController';
 
 const router = express.Router();
 
@@ -52,6 +52,6 @@ const router = express.Router();
 
 router.post('/appointment',
 validationErrorBookAppointments,
-bookAppointments.create);
+bookAppointment.create);
 
 export default router;
