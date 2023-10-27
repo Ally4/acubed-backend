@@ -3,23 +3,26 @@ import { v4 as uuidv4 } from 'uuid';
 import Models from '../database/models';
 import mail from '@sendgrid/mail';
 import dotenv from 'dotenv';
-import nodemailer from 'nodemailer';
 
 
+dotenv.config();
 
-const { orderFromHospitals, Users } = Models;
-class testOrderFromHospital {
+const { orderAppointments, Users } = Models;
+class bookAppointments {
   static async create(req, res) {
     try {
       const {
-        nameOfTest,
         firstName,
         lastName,
+        phoneNumber,
+        email,
         sex,
         age,
-        accessPoint,
-        phoneNumber,
-        payment
+        address,
+        HealthFacility,
+        department,
+        particularDoctor,
+        rendezVous,
       } = req.body;
       const id = uuidv4();
 
@@ -28,24 +31,27 @@ class testOrderFromHospital {
         where: { phoneNumber },
       });      
 
-      const orderTest =  await orderFromHospitals.create({
-        nameOfTest,
+      const orderTest =  await orderAppointments.create({
         firstName,
         lastName,
+        phoneNumber,
+        email,
         sex,
         age,
-        accessPoint,
-        phoneNumber,
-        payment,
+        address,
+        HealthFacility,
+        department,
+        particularDoctor,
+        rendezVous,
       });
 
       const order = {
         from: process.env.EMAIL_FROM,
-        to: user.email,
+        to: email,
         // to: process.env.EMAIL_TO,
         // from: user.email,
-        subject: 'Thank you for ordering your test with us',
-        html: `<h2> Dear customer to proceed you can pay to this number 0941841870 </h2>`,
+        subject: 'Thank you for booking an appointment with us',
+        html: `<h2> Dear customer for any problem or clarification you can give us a call on this number 0941841870 </h2>`,
       };
       mail.send(order);
 
@@ -67,4 +73,4 @@ class testOrderFromHospital {
   }
 }
 
-export default testOrderFromHospital;
+export default bookAppointments;
