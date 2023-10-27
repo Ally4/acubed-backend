@@ -1,12 +1,12 @@
 import Joi from '@hapi/joi';
 
 export const orderFromOtherPlace = Joi.object().keys({
-  name: Joi.string().max(15).required(),
-  sex: Joi.string().max(15).required(),
-  age: Joi.string().required(),
-  city: Joi.string().max(15).required(),
-  district: Joi.string().max(15).required(),
-  phoneNumber: Joi.string().min(5).max(15).required(),
+  name: Joi.string(),
+  sex: Joi.string(),
+  age: Joi.string(),
+  city: Joi.string(),
+  district: Joi.string(),
+  phoneNumber: Joi.string(),
 });
 
 export const validationErrorOtherPlace = (req, res, next) => {

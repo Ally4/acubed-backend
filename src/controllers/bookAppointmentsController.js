@@ -6,58 +6,59 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { orderFromHospitals, Users } = Models;
-class testOrderFromHospital {
+const { bookAppointments } = Models;
+class bookAppointment {
   static async create(req, res) {
     try {
       const {
-        nameOfTest,
         firstName,
         lastName,
+        phoneNumber,
+        email,
         sex,
         age,
-        accessPoint,
-        phoneNumber,
-        payment
+        address,
+        HealthFacility,
+        department,
+        particularDoctor,
+        rendezVous,
       } = req.body;
       const id = uuidv4();
 
-
-      const user = await Users.findOne({
-        where: { phoneNumber },
-      });      
-
-      const orderTest =  await orderFromHospitals.create({
-        nameOfTest,
+      const bookAnAppointment =  await bookAppointments.create({
         firstName,
         lastName,
+        phoneNumber,
+        email,
         sex,
         age,
-        accessPoint,
-        phoneNumber,
-        payment,
+        address,
+        HealthFacility,
+        department,
+        particularDoctor,
+        rendezVous,
       });
 
       const order = {
         from: process.env.EMAIL_FROM,
-        to: user.email,
+        to: email,
         // to: process.env.EMAIL_TO,
         // from: user.email,
-        subject: 'Thank you for ordering your test with us',
-        html: `<h2> Dear customer to proceed you can pay to this number 0941841870 </h2>`,
+        subject: 'Thank you for booking an appointment with us',
+        html: `<h2> Dear customer for any problem or clarification you can give us a call on this number 0941841870 </h2>`,
       };
       mail.send(order);
 
-      const displayOrderFromHospital = {
-        nameOfTest,
+      const booking = {
         firstName,
         phoneNumber,
+        HealthFacility,
       };
       
       return res.status(201).json({
         status: 201,
-        message: res.__('Test ordered successfully'),
-        data: displayOrderFromHospital,
+        message: res.__('Your rendez-vous has been successfully booked'),
+        data: booking,
       });
     } catch (error) {
       console.log('this is the relation error', error)
@@ -66,4 +67,4 @@ class testOrderFromHospital {
   }
 }
 
-export default testOrderFromHospital;
+export default bookAppointment;
