@@ -29,7 +29,7 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      HealthFacility: {
+      healthFacility: {
         type: Sequelize.STRING,
       },
       department: {
