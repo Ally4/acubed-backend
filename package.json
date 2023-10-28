@@ -17,7 +17,7 @@
     "clean": "rm -rf build && mkdir build",
     "build-src": "babel -d ./build ./src -s",
     "build": "npm run clean && npm run build-src",
-    "start": "npm run migrate:reset && npm run build-src && node --require @babel/polyfill build/app.js"
+    "start": "npm run build-src && node --require @babel/polyfill build/app.js"
   },
   "nyc": {
     "exclude": [
