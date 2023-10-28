@@ -8,7 +8,7 @@ export const bookAppointments = Joi.object().keys({
   sex: Joi.string(),
   age: Joi.string(),
   address: Joi.string(),
-  HealthFacility: Joi.string(),
+  healthFacility: Joi.string(),
   department: Joi.string(),
   particularDoctor: Joi.string(),
   rendezVous: Joi.string(),

@@ -18,7 +18,7 @@ class bookAppointment {
         sex,
         age,
         address,
-        HealthFacility,
+        healthFacility,
         department,
         particularDoctor,
         rendezVous,
@@ -33,7 +33,7 @@ class bookAppointment {
         sex,
         age,
         address,
-        HealthFacility,
+        healthFacility,
         department,
         particularDoctor,
         rendezVous,
@@ -52,7 +52,7 @@ class bookAppointment {
       const booking = {
         firstName,
         phoneNumber,
-        HealthFacility,
+        healthFacility,
       };
       
       return res.status(201).json({
