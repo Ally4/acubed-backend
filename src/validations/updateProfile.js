@@ -3,6 +3,8 @@ import Joi from '@hapi/joi';
 export const signup = Joi.object().keys({
   firstName: Joi.string(),
   lastName: Joi.string(),
+  city: Joi.string(),
+  occupation: Joi.string(),
   email: Joi.string().email(),
   dateOfBirth: Joi.string(),
   gender: Joi.string(),

@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     user: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
+    city: DataTypes.STRING,
+    occupation: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     dateOfBirth: DataTypes.STRING,
@@ -24,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     phoneNumber: DataTypes.STRING,
     profilPicture: DataTypes.STRING,
     role: DataTypes.STRING,
+    confirmation: DataTypes.STRING,
     isLoggedIn: DataTypes.BOOLEAN,
     resetlink: DataTypes.STRING(2000),
   }, {

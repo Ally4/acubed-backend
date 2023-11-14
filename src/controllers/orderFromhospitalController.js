@@ -11,14 +11,13 @@ class testOrderFromHospital {
   static async create(req, res) {
     try {
       const {
-        nameOfTest,
-        firstName,
-        lastName,
+        name,
         sex,
         age,
-        accessPoint,
+        hospitalName,
+        department,
+        roomNumber,
         phoneNumber,
-        payment
       } = req.body;
       const id = uuidv4();
 
@@ -28,14 +27,13 @@ class testOrderFromHospital {
       });      
 
       const orderTest =  await orderFromHospitals.create({
-        nameOfTest,
-        firstName,
-        lastName,
+        name,
         sex,
         age,
-        accessPoint,
+        hospitalName,
+        department,
+        roomNumber,
         phoneNumber,
-        payment,
       });
 
       const order = {
@@ -49,8 +47,8 @@ class testOrderFromHospital {
       mail.send(order);
 
       const displayOrderFromHospital = {
-        nameOfTest,
-        firstName,
+        name,
+        hospitalName,
         phoneNumber,
       };
       
@@ -60,7 +58,6 @@ class testOrderFromHospital {
         data: displayOrderFromHospital,
       });
     } catch (error) {
-      console.log('this is the relation error', error)
       return res.status(500).json({ status: 500, message: error.message });
     }
   }

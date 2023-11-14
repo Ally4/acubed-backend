@@ -24,7 +24,7 @@ const getUserbyId = async (req, res) => {
   try {
     const { userId } = req.params;
     const user = await models.Users.findOne({
-      where: { id: userId },
+      where: { user: userId },
       attributes: {
         exclude: ['password'],
       },

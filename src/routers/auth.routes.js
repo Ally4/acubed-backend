@@ -307,7 +307,7 @@ router.get('/logout', checkUser, userController.logout);
  *       401:
  *         description: you don't permissions
  * */
-router.get('/:userId', checkUser, isAdmin, users.getUserbyId);
+router.get('/:userId', users.getUserbyId);
 
 /**
  * @swagger
@@ -332,7 +332,7 @@ router.get('/:userId', checkUser, isAdmin, users.getUserbyId);
  *       '403':
  *             description: There are no Users registered in the system.
  */
-router.get('/', checkUser, isAdmin, users.getUsers);
+router.get('/', users.getUsers);
 /**
  * @swagger
  * /api/v1/users/{userId}:
@@ -393,5 +393,5 @@ router.patch('/:userId', checkUser, isAdmin, validRole, users.updateUser);
 *             description: Bad request.
 * */
 
-router.get('/allusers', checkUser, isAdmin, userController.getallusers);
+router.get('/allusers', userController.getAllUsers);
 export default router;
