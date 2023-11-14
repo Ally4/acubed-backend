@@ -61,6 +61,7 @@ class register {
       
       const thePassword = bcrypts.hashSync(password, 10);
 
+
       const newUser = await Users.create({
         id,
         user,
@@ -189,6 +190,8 @@ static async logout(req,res){
         data: {
           firstname: userData.firstName,
           lastname: userData.lastName,
+          city: userData.city,
+          occupation: userData.occupation,
           email: userData.email,
           role: userData.role,
           dateofbirth: userData.dateOfBirth,
@@ -208,31 +211,59 @@ static async logout(req,res){
   }
 
 
-  static async getallusers(req, res) {
-    try {
-    const users = await Users.findAll({
-      where: {
-        [Op.or]: [
-          { role: 'driver' },
-          { role: 'operator' },
-        ],
-      },
-      attributes: {
-        exclude: ['password'],
-      },
-    });
+//   static async getallusers(req, res) {
+//     try {
+//     const users = await Users.findAll({});
+//     return res.status(200).json({
+//       status: 'success',
+//       data: {
+//         users,
+//       },
+//     });
+//   }    catch(error) {  
+//     return res.status(500).json({
+//       status: 500,
+//       message: error.message,
+//   })
+//   }
+// }
+static async getAllUsers(req, res) {
+  try {
+    const users = await Users.findAll();
+
     return res.status(200).json({
       status: 'success',
       data: {
         users,
       },
     });
-  }    catch(error) {  
+  } catch (error) {
+    console.error('Error fetching users:', error.message);
+
     return res.status(500).json({
-    error: error.message,
-  })
+      message: 'Internal Server Error',
+    });
   }
 }
+
+
+static async getUserById(req, res) {
+  try {
+    const { userId } = req.params;
+    const user = await models.Users.findOne({
+      where: { id: userId },
+      attributes: {
+        exclude: ['password'],
+      },
+    });
+    if (user) {
+      return res.status(200).json({ user });
+    }
+    return res.status(404).send('no User with that Id');
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
 
 
   static async forgot(req, res) {
@@ -262,8 +293,6 @@ static async logout(req,res){
         {where: { email } });
 
 
-
-
       const randomNumber = (Math.floor(Math.random() * (9999 - 999 + 1) + 999)).toString();
       await user.update({ resetlink: randomNumber });
       const forgottenMail = {
@@ -273,6 +302,7 @@ static async logout(req,res){
         html: `<h2> Dear customer we are pleased to give you this code to reset your password, </h2><h2>Enter the code into the application</h2><h1>${randomNumber}</h1>`,
       };
       mail.send(forgottenMail);
+
       return res.status(201).json({
         status: 201,
         token: accessToken,
