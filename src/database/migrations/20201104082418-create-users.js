@@ -56,7 +56,7 @@ module.exports = {
       profilPicture: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'https://asset.cloudinary.com/bomayee/1b04e4fc5c68d0a65edf7bf1400ff878',
+        defaultValue: 'https://res.cloudinary.com/bomayee/image/upload/v1699862446/acubed-profil-pictures/profile_oyc28d.png',
       },
       role: {
         type: Sequelize.STRING,
