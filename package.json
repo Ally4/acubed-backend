@@ -17,7 +17,7 @@
     "clean": "rm -rf build && mkdir build",
     "build-src": "babel -d ./build ./src -s",
     "build": "npm run clean && npm run build-src",
-    "start": "npm run migrate:reset && npm run build-src && node --require @babel/polyfill build/app.js"
+    "start": "npm run build-src && node --require @babel/polyfill build/app.js"
   },
   "nyc": {
     "exclude": [
@@ -58,6 +58,7 @@
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "easyinvoice": "^3.0.25",
     "express": "^4.17.1",
     "express-fileupload": "^1.4.0",
     "fs": "^0.0.1-security",
@@ -73,6 +74,7 @@
     "nodemon": "^2.0.4",
     "paginate-info": "^1.0.4",
     "path": "^0.12.7",
+    "pdfkit": "^0.14.0",
     "pg": "^8.4.0",
     "pg-hstore": "^2.3.3",
     "rm": "^0.1.8",
