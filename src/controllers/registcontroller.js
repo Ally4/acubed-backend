@@ -231,7 +231,11 @@ static async logout(req,res){
 // }
 static async getAllUsers(req, res) {
   try {
-    const users = await Users.findAll();
+    const users = await Users.findAll({
+      attributes: {
+        exclude: ['password'],
+      },
+    });
 
     return res.status(200).json({
       status: 'success',
