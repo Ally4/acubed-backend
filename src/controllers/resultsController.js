@@ -5,66 +5,72 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import PDFDocument from 'pdfkit';
 
-
 dotenv.config();
 
 const { results, Users } = Models;
+
 class SendResults {
   static async create(req, res) {
     try {
       const {
         name,
         email,
-        phoneNumber,  
+        phoneNumber,
         address,
         sickness,
       } = req.body;
       const id = uuidv4();
 
-
       const user = await Users.findOne({
         where: { phoneNumber },
-      });      
-
-      const orderTest =  await results.create({
-        name,
-        email,
-        phoneNumber,  
-        address,
-        sickness,
       });
 
+      // Create PDF document
+      const pdfPath = `result_${id}.pdf`;
+      const pdfDoc = new PDFDocument();
+      const pdfStream = fs.createWriteStream(pdfPath);
 
-            // Create PDF document
-            const pdfPath = `result_${id}.pdf`;
-            const pdfDoc = new PDFDocument();
-            pdfDoc.pipe(fs.createWriteStream(pdfPath));
-            pdfDoc.text(`Name: ${name}`);
-            pdfDoc.text(`Sickness: ${sickness}`);
-            // Add more information as needed
-            pdfDoc.end();
+      // Wrap the stream in a Promise
+      const streamPromise = new Promise((resolve, reject) => {
+        pdfStream.on('finish', resolve);
+        pdfStream.on('error', reject);
+      });
 
+      pdfDoc.pipe(pdfStream);
 
+      pdfDoc.image('/home/ally/Desktop/workv/backend/acubed-backend/src/images/acubed-l.jpg', 50, 50, { width: 100 });
+      pdfDoc.image('/home/ally/Desktop/workv/backend/acubed-backend/src/images/acubed-l.jpg', 400, 50, { width: 100 });
 
+      // End PDF creation
+      pdfDoc.end();
 
-      // const order = {
-      //   from: process.env.EMAIL_FROM,
-      //   to: user.email,
-      //   // to: process.env.EMAIL_TO,
-      //   // from: user.email,
-      //   subject: 'Thank you for ordering your test with us',
-      //   html: `<h2> You have received your results</h2>`,
-      // };
-      // mail.send(order);
+      // Wait for the stream to finish writing before proceeding
+      await streamPromise;
+
+      // Read the PDF into a buffer
+      const pdfBuffer = fs.readFileSync(pdfPath);
+
+      // Save the PDF content in the database
+      await results.create({
+        name,
+        email,
+        phoneNumber,
+        address,
+        sickness,
+        pdf: pdfBuffer,
+      });
+
+      // Delete the generated PDF file
+      fs.unlinkSync(pdfPath);
 
       const displayOrderFromHospital = {
         name,
         sickness,
       };
-      
+
       return res.status(201).json({
         status: 201,
-        message: res.__('The result send successfully'),
+        message: res.__('The result was sent successfully'),
         data: displayOrderFromHospital,
       });
     } catch (error) {

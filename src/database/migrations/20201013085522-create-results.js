@@ -23,6 +23,9 @@ module.exports = {
       sickness: {
         type: Sequelize.STRING
       },
+      pdf: {
+        type: Sequelize.BLOB
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

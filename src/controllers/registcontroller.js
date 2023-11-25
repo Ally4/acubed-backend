@@ -250,7 +250,7 @@ static async getAllUsers(req, res) {
 static async getUserById(req, res) {
   try {
     const { userId } = req.params;
-    const user = await models.Users.findOne({
+    const user = await Users.findOne({
       where: { id: userId },
       attributes: {
         exclude: ['password'],

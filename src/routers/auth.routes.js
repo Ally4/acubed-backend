@@ -3,6 +3,7 @@ import express from 'express';
 import userController from '../controllers/registcontroller';
 import checkUser from '../middleware/checkUser';
 import users from '../controllers/users';
+// import users from '../controllers/users';
 import { validationSignup } from '../validations/signup';
 import { validateSignin } from '../validations/signin';
 import validRole from '../validations/validRole';
@@ -307,7 +308,8 @@ router.get('/logout', checkUser, userController.logout);
  *       401:
  *         description: you don't permissions
  * */
-router.get('/:userId', users.getUserbyId);
+router.get('/:userId', userController.getUserById);
+// router.get('/:userId', users.getUserbyId);
 
 /**
  * @swagger
@@ -332,7 +334,8 @@ router.get('/:userId', users.getUserbyId);
  *       '403':
  *             description: There are no Users registered in the system.
  */
-router.get('/', users.getUsers);
+router.get('/', userController.getAllUsers);
+// router.get('/', users.getUsers);
 /**
  * @swagger
  * /api/v1/users/{userId}:
@@ -368,7 +371,10 @@ router.get('/', users.getUsers);
  *       400:
  *         descriptuion: Bad request
  * */
-router.patch('/:userId', checkUser, isAdmin, validRole, users.updateUser);
+
+
+// router.patch('/:userId', checkUser, isAdmin, validRole, users.updateUser);
+// router.patch('/:userId', checkUser, isAdmin, validRole, users.updateUser);
 
 /**
 * @swagger

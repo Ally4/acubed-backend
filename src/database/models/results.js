@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     phoneNumber: DataTypes.STRING,
     address: DataTypes.STRING,
     sickness: DataTypes.STRING,
+    // for the pdf
+    pdf: DataTypes.BLOB,
   }, {
     sequelize,
     modelName: 'results',
