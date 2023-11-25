@@ -87,6 +87,7 @@ class register {
         message: res.__('user created successfully'),
         id: newUser.id,
         user: newUser.user,
+        name: newUser.firstName,
         // email: newUser.email,
         // firstName: newUser.firstName,
         // name: newUser.lastName,
@@ -129,7 +130,8 @@ class register {
 
       return res.status(200).json({
         status: 200,
-        name: req.body.user,
+        username: req.body.user,
+        name: isUser.firstName,
         message: res.__('logged In successfully'),
         token: accessToken,
         userLoggedIn: LoggedInUser.isLoggedIn
