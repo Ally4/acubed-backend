@@ -26,6 +26,9 @@ module.exports = {
       pdf: {
         type: Sequelize.BLOB
       },
+      status: {
+        type: Sequelize.BLOB
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -2,6 +2,12 @@
 import express from 'express';
 import resultsController from '../controllers/resultsController';
 import { validateResults } from '../validations/results';
+import multer from 'multer';
+
+
+const upload = multer({dest: 'uploads/'});
+
+
 
 const router = express.Router();
 
@@ -50,8 +56,27 @@ const router = express.Router();
 *             description: The email is already in the system.
 * */
 
+
+router.get('/results',
+resultsController.getAllResults);
+
 router.post('/send',
 validateResults,
+upload.single('pdfFile'),
 resultsController.create);
+
+router.get('/:name',
+resultsController.getResultByPatientId);
+
+router.patch('/:name',
+resultsController.getResultByPatientId);
+
+router.put('/:name',
+resultsController.getResultByPatientId);
+
+router.delete('/:name',
+resultsController.getResultByPatientId);
+
+
 
 export default router;

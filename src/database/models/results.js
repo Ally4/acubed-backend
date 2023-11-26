@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     sickness: DataTypes.STRING,
     // for the pdf
     pdf: DataTypes.BLOB,
+    status: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'results',

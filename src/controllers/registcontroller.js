@@ -53,7 +53,7 @@ class register {
       if (inSystem) {
         return res
           .status(409)
-          .json({ status: 409, message: res.__('The email is already in the system') });
+          .json({ status: 409, message: res.__('The email or phone number is already in the system') });
       }
 
       const payload = { user };
