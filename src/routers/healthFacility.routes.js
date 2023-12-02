@@ -2,6 +2,11 @@
 import express from 'express';
 import healthFacilityController from '../controllers/healthFacilityAndTestsController';
 import { validateHealthFacility } from '../validations/healthFaciility';
+import { validateAddTests } from '../validations/addTests';
+import multer from 'multer';
+
+
+const upload = multer({dest: 'uploads/'});
 
 const router = express.Router();
 
@@ -52,6 +57,18 @@ const router = express.Router();
 
 router.post('/register',
 validateHealthFacility,
+upload.single('image'),
 healthFacilityController.create);
+
+
+router.patch('/add-tests/:name',
+validateAddTests,
+healthFacilityController.addTests);
+
+router.get('/facilities',
+healthFacilityController.getAllHealthFacilities);
+
+router.get('/tests/:name',
+healthFacilityController.getAllTestsOfFacility);
 
 export default router;

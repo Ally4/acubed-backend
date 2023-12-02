@@ -213,22 +213,7 @@ static async logout(req,res){
   }
 
 
-//   static async getallusers(req, res) {
-//     try {
-//     const users = await Users.findAll({});
-//     return res.status(200).json({
-//       status: 'success',
-//       data: {
-//         users,
-//       },
-//     });
-//   }    catch(error) {  
-//     return res.status(500).json({
-//       status: 500,
-//       message: error.message,
-//   })
-//   }
-// }
+  
 static async getAllUsers(req, res) {
   try {
     const users = await Users.findAll({
