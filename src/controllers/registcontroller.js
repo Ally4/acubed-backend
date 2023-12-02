@@ -53,7 +53,7 @@ class register {
       if (inSystem) {
         return res
           .status(409)
-          .json({ status: 409, message: res.__('The email is already in the system') });
+          .json({ status: 409, message: res.__('The email or phone number is already in the system') });
       }
 
       const payload = { user };
@@ -213,25 +213,14 @@ static async logout(req,res){
   }
 
 
-//   static async getallusers(req, res) {
-//     try {
-//     const users = await Users.findAll({});
-//     return res.status(200).json({
-//       status: 'success',
-//       data: {
-//         users,
-//       },
-//     });
-//   }    catch(error) {  
-//     return res.status(500).json({
-//       status: 500,
-//       message: error.message,
-//   })
-//   }
-// }
+  
 static async getAllUsers(req, res) {
   try {
-    const users = await Users.findAll();
+    const users = await Users.findAll({
+      attributes: {
+        exclude: ['password'],
+      },
+    });
 
     return res.status(200).json({
       status: 'success',

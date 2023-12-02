@@ -79,5 +79,9 @@
 	"Test ordered successfully": "Test ordered successfully",
 	"Your rendez-vous has been successfully booked": "Your rendez-vous has been successfully booked",
 	"The result send successfully": "The result send successfully",
-	"The result was sent successfully": "The result was sent successfully"
+	"The result was sent successfully": "The result was sent successfully",
+	"There is no such facility in the system": "There is no such facility in the system",
+	"Tests added successfully": "Tests added successfully",
+	"Health facilities retrieved successfully": "Health facilities retrieved successfully",
+	"Tests retrieved successfully": "Tests retrieved successfully"
 }

@@ -5,6 +5,7 @@ export const results = Joi.object().keys({
   phoneNumber: Joi.string(),  
   address: Joi.string(),
   sickness: Joi.string(),
+  pdfFile: Joi.string(),
 });
 export const validateResults = (req, res, next) => {
   const { error } = results.validate(req.body);
