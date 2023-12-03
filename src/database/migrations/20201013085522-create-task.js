@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('healthFacilities', {
+    await queryInterface.createTable('task', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,25 +11,35 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
-      email: {
+      assignee: {
+        type: Sequelize.JSON
+      },
+      startDate: {
         type: Sequelize.STRING
       },
-      phoneNumber: {
+      endDate: {
         type: Sequelize.STRING
       },
-      address: {
+      priority: {
         type: Sequelize.STRING
       },
-      category: {
+      description: {
         type: Sequelize.STRING
       },
-      // tests: {
-      //   type: Sequelize.JSON
-      // },
-      profilPicture: {
+      project: {
+        type: Sequelize.STRING
+      },
+      pdf: {
         type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: 'https://res.cloudinary.com/bomayee/image/upload/v1699862446/acubed-profil-pictures/profile_oyc28d.png',
+      },
+      picture: {
+        type: Sequelize.STRING,
+      },
+      state: {
+        type: Sequelize.STRING,
+      },
+      draft: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -42,6 +52,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('healthFacilities');
+    await queryInterface.dropTable('task');
   }
 };

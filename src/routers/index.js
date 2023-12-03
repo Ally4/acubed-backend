@@ -5,7 +5,8 @@ import swaggerOptions from '../utils/swaggerOptions';
 import welcomeRoute from './welcome.routes';
 import userRoute from './auth.routes';
 import healthFacilityRoute from './healthFacility.routes';
-import orderTestsRoute from './orders.routes';
+// import orderTestsRoute from './orders.routes';
+import tests from './orders.routes';
 import bookAppointmentsRoute from './bookAppointments.routes';
 import resultsRoute from './results.routes';
 
@@ -18,7 +19,9 @@ router.use('/api/v1/auth', userRoute);
 
 router.use('/api/v1/health-facility', healthFacilityRoute);
 
-router.use('/api/v1/tests', orderTestsRoute);
+// router.use('/api/v1/tests', orderTestsRoute);
+
+router.use('/api/v1/tests', tests);
 
 router.use('/api/v1/book', bookAppointmentsRoute);
 

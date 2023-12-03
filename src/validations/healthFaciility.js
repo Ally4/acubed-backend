@@ -1,12 +1,12 @@
 import Joi from '@hapi/joi';
 export const signin = Joi.object().keys({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  phoneNumber: Joi.string().required(),  
-  address: Joi.string().required(),
-  category: Joi.string().required(),
-  profilPicture: Joi.string(),
-  images: Joi.string(),
+    name: Joi.string().required(),
+    email: Joi.string().email().required(),
+    phoneNumber: Joi.string().required(),  
+    address: Joi.string().required(),
+    category: Joi.string().required(),
+    profilPicture: Joi.string(),
+    images: Joi.string(),
   // tests: Joi
   // .array()
   // .items(

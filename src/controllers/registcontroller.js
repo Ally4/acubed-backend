@@ -202,9 +202,6 @@ static async logout(req,res){
 
           // have to up on profilPicture result.secure_url
           profilPicture: result.secure_url
-
-
-
         },
       });
     } catch (error) {

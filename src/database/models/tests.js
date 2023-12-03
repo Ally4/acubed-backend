@@ -2,7 +2,7 @@ import { Model } from 'sequelize';
 
 
 module.exports = (sequelize, DataTypes) => {
-  class healthFacilities extends Model {
+  class tests extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,17 +12,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  healthFacilities.init({
+  tests.init({
     name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING,
-    address: DataTypes.STRING,
-    category: DataTypes.STRING,
-    profilPicture: DataTypes.STRING,
-    // tests: DataTypes.JSON,
+    price: DataTypes.STRING,
+    approximateWait: DataTypes.STRING,
+    // address: DataTypes.STRING,
+    // category: DataTypes.STRING,
+    // profilPicture: DataTypes.STRING,
+    facilities: DataTypes.JSON,
   }, {
     sequelize,
-    modelName: 'healthFacilities',
+    modelName: 'tests',
   });
-  return healthFacilities;
+  return tests;
 };

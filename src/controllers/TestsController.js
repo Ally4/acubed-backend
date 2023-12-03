@@ -5,8 +5,7 @@ import cloudinary from '../cloudinary/cloudinary'
 
 
 
-const { healthFacilities } = Models;
-
+const { tests } = Models;
 
 const uploadImage = async (file) => {
   try {
@@ -18,7 +17,8 @@ const uploadImage = async (file) => {
   }
 }
 
-class healthInstitution {
+
+class Test {
   static async create(req, res) {
     try {
       const {
@@ -29,7 +29,7 @@ class healthInstitution {
         category
       } = req.body;
       const id = uuidv4();
-      const inSystem = await healthFacilities.findOne({
+      const inSystem = await tests.findOne({
         where: { name },
       });
 
@@ -43,13 +43,13 @@ class healthInstitution {
 
       const result = await uploadImage(req.file);
 
-      await Users.update(
+      await tests.update(
         {profilPicture: result.secure_url},
         {where: { name }},
       );
 
 
-      const healthFacility = await healthFacilities.create({
+      const test = await tests.create({
         name,
         email,
         phoneNumber,  
@@ -58,19 +58,19 @@ class healthInstitution {
       });
 
 
-      const healthFacilityDisplay = {
-        name: healthFacility.name,
-        email: healthFacility.email,
-        phoneNumber: healthFacility.phoneNumber,  
-        address: healthFacility.address,
-        category: healthFacility.category,
+      const testDisplay = {
+        name: test.name,
+        email: test.email,
+        phoneNumber: test.phoneNumber,  
+        address: test.address,
+        category: test.category,
         profilPicture: result.secure_url
       };
       
       return res.status(201).json({
         status: 201,
         message: res.__('Health facility created successfully'),
-        data: healthFacilityDisplay,
+        data: testDisplay,
       });
     } catch (error) {
       return res.status(500).json({ status: 500, message: error.message });
@@ -78,24 +78,24 @@ class healthInstitution {
   }
 
 
-  static async addTests(req, res) {
+  static async addFacilities(req, res) {
     try {
       const { name } = req.params;
-      const healthFacility = await healthFacilities.findOne({
+      const test = await tests.findOne({
         where: { name },
       });
   
-      if (!healthFacility) {
+      if (!test) {
         return res.status(404).json({
           status: 404,
           message: res.__('There is no such facility in the system'),
         });
       }
   
-      const { tests } = req.body;
+      const { facilities } = req.body;
   
       // Ensure tests is an array
-      if (!Array.isArray(tests)) {
+      if (!Array.isArray(facilities)) {
         return res.status(400).json({
           status: 400,
           message: res.__('Invalid value for tests. It should be an array.'),
@@ -103,19 +103,19 @@ class healthInstitution {
       }
   
       // Concatenate the new tests with the existing ones
-      const updatedTests = [...healthFacility.tests, ...tests];
+      const updatedFacilities = [...tests.facilities, ...facilities];
   
       // Update the healthFacility with the new tests
-      const updatedHealthFacility = await healthFacility.update({ tests: updatedTests });
+      const updatedTest = await tests.update({ facilities: updatedFacilities });
   
       const healthFacilityDisplay = {
-        name: updatedHealthFacility.name,
-        tests: updatedHealthFacility.tests,
+        name: updatedTest.name,
+        tests: updatedTest.facilities,
       };
   
       return res.status(200).json({
         status: 200,
-        message: res.__('Tests added successfully'),
+        message: res.__('Facilities added successfully'),
         data: healthFacilityDisplay,
       });
     } catch (error) {
@@ -126,32 +126,32 @@ class healthInstitution {
     }
   }
   
-  static async getAllHealthFacilities(req, res) {
+  static async getAllTests(req, res) {
     try {
-      const healthFacilitiesList = await healthFacilities.findAll();
+      const testsList = await tests.findAll();
 
-      if (!healthFacilitiesList) {
+      if (!testsList) {
         return res.status(400).json({
           status: 400,
-          message: res.__('No health facility found'),
-          data: formattedHealthFacilities,
+          message: res.__('No tests facility found'),
+          data: formattedTests,
         });
       }
   
-      const formattedHealthFacilities = healthFacilitiesList.map((facility) => {
+      const formattedTests = testsList.map((test) => {
         return {
-          name: facility.name,
-          email: facility.email,
-          phoneNumber: facility.phoneNumber,
-          address: facility.address,
-          category: facility.category,
+          name: test.name,
+          email: test.email,
+          phoneNumber: test.phoneNumber,
+          address: test.address,
+          category: test.category,
         };
       });
   
       return res.status(200).json({
         status: 200,
-        message: res.__('Health facilities retrieved successfully'),
-        data: formattedHealthFacilities,
+        message: res.__('Tests retrieved successfully'),
+        data: formattedTests,
       });
     } catch (error) {
       return res.status(500).json({ status: 500, message: error.message });
@@ -159,31 +159,31 @@ class healthInstitution {
   }
   
 
-  static async getAllTestsOfFacility(req, res) {
+  static async getAllFacilitiesOfTest(req, res) {
     try {
       const { name } = req.params;
-      const healthFacility = await healthFacilities.findOne({
+      const formattedTests = await tests.findOne({
         where: { name },
       });
   
-      if (!healthFacility) {
+      if (!formattedTests) {
         return res.status(404).json({
           status: 404,
           message: res.__('There is no such facility in the system'),
         });
       }
   
-      const tests = healthFacility.tests || [];
+      const tests = formattedTests.facilities || [];
   
-      const healthFacilityDisplay = {
-        name: healthFacility.name,
-        tests: tests,
+      const formattedTestsDisplay = {
+        name: formattedTests.name,
+        facilities: facilities,
       };
   
       return res.status(200).json({
         status: 200,
-        message: res.__('Tests retrieved successfully'),
-        data: healthFacilityDisplay,
+        message: res.__('Facilities retrieved successfully'),
+        data: formattedTestsDisplay,
       });
     } catch (error) {
       return res.status(500).json({
@@ -195,4 +195,4 @@ class healthInstitution {
   
 }
 
-export default healthInstitution;
+export default Test;
