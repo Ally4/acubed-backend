@@ -83,5 +83,6 @@
 	"There is no such facility in the system": "There is no such facility in the system",
 	"Tests added successfully": "Tests added successfully",
 	"Health facilities retrieved successfully": "Health facilities retrieved successfully",
-	"Tests retrieved successfully": "Tests retrieved successfully"
+	"Tests retrieved successfully": "Tests retrieved successfully",
+	"The facility is already in the system": "The facility is already in the system"
 }

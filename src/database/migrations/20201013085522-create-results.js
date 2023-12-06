@@ -72,6 +72,9 @@ module.exports = {
       },
       pdf: {
         type: Sequelize.STRING
+      },      
+      resultPicture: {
+        type: Sequelize.STRING,
       },
       status: {
         type: Sequelize.STRING

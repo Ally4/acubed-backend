@@ -7,7 +7,7 @@ dotenv.config();
 
 const authentication = async (req, res, next) => {
   try {
-    const token = req.header('Authorization');
+    const token = req.header('token');
     console.log("qqqqqqqqqqqqqqqqqqqqqqqqqq", req.header, token)
 
     if (!token) return res.status(401).json({ status: 401, message: res.__('Please login') });
