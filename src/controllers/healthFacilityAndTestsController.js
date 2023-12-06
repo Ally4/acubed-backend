@@ -160,6 +160,7 @@ class healthInstitution {
           phoneNumber: facility.phoneNumber,
           address: facility.address,
           category: facility.category,
+          profilPicture: facility.profilPicture
         };
       });
   
