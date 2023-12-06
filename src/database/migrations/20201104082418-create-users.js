@@ -11,6 +11,8 @@ module.exports = {
       },
       firstName: {
         type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: ' ',
       },
       lastName: {
         type: Sequelize.STRING,
