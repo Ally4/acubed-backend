@@ -84,5 +84,6 @@
 	"Tests added successfully": "Tests added successfully",
 	"Health facilities retrieved successfully": "Health facilities retrieved successfully",
 	"Tests retrieved successfully": "Tests retrieved successfully",
-	"The facility is already in the system": "The facility is already in the system"
+	"The facility is already in the system": "The facility is already in the system",
+	"The email or phone number is already in the system": "The email or phone number is already in the system"
 }
