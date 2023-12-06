@@ -364,6 +364,16 @@ const uploadPdfToCloudinary = (fileBuffer) => new Promise((resolve, reject) => {
   ).end(fileBuffer);
 });
 
+const uploadImage = async (file) => {
+  try {
+    const result = await cloudinary.uploader.upload(file.path, {folder:'acubed-results-pictures'});
+    return result;
+  } catch (error) {
+    // console.error('error uploading image to cloudinary', error);
+    throw error;
+  }
+}
+
 class SendResults {
   static async create(req, res) {
     try {
@@ -380,6 +390,9 @@ class SendResults {
       // Upload the file to Cloudinary
       const result = await uploadPdfToCloudinary(req.file.buffer);
 
+      // for cloudinary image upload 
+      const resultImage = await uploadImage(req.file);
+
       // Use your database model (e.g., results.create) to save the data
       await results.create({
         id,
@@ -389,6 +402,7 @@ class SendResults {
         address,
         sickness,
         pdf: result.secure_url,
+        resultPicture: resultImage.secure_url
       });
 
       const displayOrderFromHospital = {

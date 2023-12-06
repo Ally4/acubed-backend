@@ -94,6 +94,11 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
+
+const uploadImage = multer({dest: 'uploads/'});
+
+
+
 /**
 * @swagger
 * /api/v1/auth/register:
@@ -145,6 +150,7 @@ router.get('/results',
 router.post('/send',
   validateResults,
   upload.single('pdfFile'),
+  uploadImage.single('image'),
   resultsController.create);
 
 router.get('/:name',

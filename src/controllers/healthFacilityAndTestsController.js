@@ -2,6 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import Models from '../database/models';
 import cloudinary from '../cloudinary/cloudinary'
+const fs = require('fs');
 
 
 
@@ -41,12 +42,19 @@ class healthInstitution {
       }
 
 
-      const result = await uploadImage(req.file);
+      // const result = await uploadImage(req.file);
 
-      await Users.update(
-        {profilPicture: result.secure_url},
-        {where: { name }},
-      );
+      // await Users.update(
+      //   {profilPicture: result.secure_url},
+      //   {where: { name }},
+      // );
+
+      // await healthFacilities.create(
+      //   {profilPicture: result.secure_url},
+      //   // {where: { name }},
+      // );
+
+      // console.log('eeeeeeeeeeeeeeeeeeeeeeeeee', result.secure_url)
 
 
       const healthFacility = await healthFacilities.create({
@@ -55,6 +63,8 @@ class healthInstitution {
         phoneNumber,  
         address,
         category,
+
+        // profilPicture: result.secure_url
       });
 
 
@@ -64,7 +74,8 @@ class healthInstitution {
         phoneNumber: healthFacility.phoneNumber,  
         address: healthFacility.address,
         category: healthFacility.category,
-        profilPicture: result.secure_url
+        profilPicture: healthFacility.profilPicture,
+        // profilPicture: result.secure_url
       };
       
       return res.status(201).json({
@@ -73,7 +84,11 @@ class healthInstitution {
         data: healthFacilityDisplay,
       });
     } catch (error) {
-      return res.status(500).json({ status: 500, message: error.message });
+      return res.status(500).json({
+        ab: console.log('eeeeeeeeeeeeeeeeeeeeeeeeee', error),
+        status: 500,
+        message: error.message,
+      });
     }
   }
 
@@ -154,7 +169,10 @@ class healthInstitution {
         data: formattedHealthFacilities,
       });
     } catch (error) {
-      return res.status(500).json({ status: 500, message: error.message });
+      return res.status(500).json({
+        status: 500,
+        message: error.message,
+      });
     }
   }
   
