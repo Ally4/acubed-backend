@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     sickness: DataTypes.STRING,
     // for the pdf
     pdf: DataTypes.STRING,
-    resultPicture: DataTypes.STRING,
+    // resultPicture: DataTypes.STRING,
     status: DataTypes.STRING,
   }, {
     sequelize,

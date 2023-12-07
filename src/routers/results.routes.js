@@ -150,7 +150,7 @@ router.get('/results',
 router.post('/send',
   validateResults,
   upload.single('pdfFile'),
-  uploadImage.single('image'),
+  // uploadImage.single('image'),
   resultsController.create);
 
 router.get('/:name',
