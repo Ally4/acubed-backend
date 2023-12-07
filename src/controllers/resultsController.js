@@ -423,11 +423,7 @@ class SendResults {
 
   static async getAllResults(req, res) {
     try {
-      const allResults = await results.findAll({
-        attributes: {
-          exclude: ['pdf'],
-        },
-      });
+      const allResults = await results.findAll();
       if (!allResults) {
         return res.status(404).send('no results found');
       }
