@@ -69,6 +69,7 @@ class healthInstitution {
 
 
       const healthFacilityDisplay = {
+        id: healthFacility.id,
         name: healthFacility.name,
         email: healthFacility.email,
         phoneNumber: healthFacility.phoneNumber,  
