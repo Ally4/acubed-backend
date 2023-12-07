@@ -390,8 +390,8 @@ class SendResults {
       // Upload the file to Cloudinary
       const result = await uploadPdfToCloudinary(req.file.buffer);
 
-      // for cloudinary image upload 
-      const resultImage = await uploadImage(req.file);
+      // // for cloudinary image upload 
+      // const resultImage = await uploadImage(req.file);
 
       // Use your database model (e.g., results.create) to save the data
       await results.create({
@@ -402,7 +402,7 @@ class SendResults {
         address,
         sickness,
         pdf: result.secure_url,
-        resultPicture: resultImage.secure_url
+        // resultPicture: resultImage.secure_url
       });
 
       const displayOrderFromHospital = {
@@ -449,10 +449,7 @@ class SendResults {
     try {
       const { name } = req.params;
       const result = await results.findOne({
-        where: { name },
-        attributes: {
-          exclude: ['pdf'],
-        },
+        where: { name }
       });
       if (!result) {
         return res.status(404).send('no result on that name');
