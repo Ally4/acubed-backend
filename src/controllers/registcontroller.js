@@ -94,7 +94,10 @@ class register {
         token: accessToken,
       });
     } catch (error) {
-      return res.status(500).json({ status: 500, message: error.message });
+      return res.status(500).json({
+        status: 500,
+        err: error.message,
+      });
     }
   }
   
@@ -139,7 +142,7 @@ class register {
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        error: error.message,
+        err: error.message,
       });
     }
   }
@@ -160,7 +163,8 @@ static async logout(req,res){
        
     } catch (error) {
       return res.status(500).json({
-        error: error.message,
+        status: 500,
+        err: error.message,
       });
     } }
     
@@ -205,7 +209,10 @@ static async logout(req,res){
         },
       });
     } catch (error) {
-      return res.status(500).send(error.message);
+      return res.status(500).json({
+        status: 500,
+        err: error.message,
+      });
     }
   }
 
@@ -226,10 +233,9 @@ static async getAllUsers(req, res) {
       },
     });
   } catch (error) {
-    console.error('Error fetching users:', error.message);
-
     return res.status(500).json({
-      message: 'Internal Server Error',
+      status: 500,
+      err: error.message,
     });
   }
 }
@@ -237,19 +243,22 @@ static async getAllUsers(req, res) {
 
 static async getUserById(req, res) {
   try {
-    const { userId } = req.params;
-    const user = await Users.findOne({
-      where: { id: userId },
+    const { user } = req.params;
+    const userInSystem = await Users.findOne({
+      where: { user },
       attributes: {
         exclude: ['password'],
       },
     });
     if (user) {
-      return res.status(200).json({ user });
+      return res.status(200).json({ userInSystem });
     }
     return res.status(404).send('no User with that Id');
-  } catch (err) {
-    return res.status(500).send(err.message);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      err: error.message,
+    });
   }
 };
 
@@ -297,7 +306,10 @@ static async getUserById(req, res) {
         message: res.__('The reset code has been sent to your email successfully'),
       });
     } catch (error) {
-      return res.status(500).json({ status: 500, message: error.message });
+      return res.status(500).json({
+        status: 500,
+        err: error.message,
+      });
     }
   }
 
@@ -339,10 +351,11 @@ static async getUserById(req, res) {
         Message: res.__('The code entered successfully'),
       });
     }
-   catch(err){
+   catch(error){
     return res.status(500).json({
-      error: err.message,
-       })
+      status: 500,
+      err: error.message,
+    });
       }
 }
 
@@ -385,8 +398,9 @@ static async getUserById(req, res) {
     }
    catch(error){
     return res.status(500).json({
-      error: error.message,
-       })
+      status: 500,
+      err: error.message,
+    });
       }
     }
 
