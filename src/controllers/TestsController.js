@@ -73,7 +73,10 @@ class Test {
         data: testDisplay,
       });
     } catch (error) {
-      return res.status(500).json({ status: 500, message: error.message });
+      return res.status(500).json({
+        status: 500,
+        err: error.message,
+      });
     }
   }
 
@@ -121,7 +124,7 @@ class Test {
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: error.message,
+        err: error.message,
       });
     }
   }
@@ -154,7 +157,10 @@ class Test {
         data: formattedTests,
       });
     } catch (error) {
-      return res.status(500).json({ status: 500, message: error.message });
+      return res.status(500).json({
+        status: 500,
+        err: error.message,
+      });
     }
   }
   
@@ -188,7 +194,7 @@ class Test {
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: error.message,
+        err: error.message,
       });
     }
   }

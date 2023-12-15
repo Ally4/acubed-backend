@@ -308,7 +308,7 @@ router.get('/logout', checkUser, userController.logout);
  *       401:
  *         description: you don't permissions
  * */
-router.get('/:userId', userController.getUserById);
+router.get('/:user', userController.getUserById);
 // router.get('/:userId', users.getUserbyId);
 
 /**
