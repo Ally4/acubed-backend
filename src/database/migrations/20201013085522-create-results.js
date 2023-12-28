@@ -54,6 +54,9 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         default: Sequelize.fn('uuid_generate_v4')
+      },      
+      patientId: {
+        type: Sequelize.STRING,
       },
       name: {
         type: Sequelize.STRING,
