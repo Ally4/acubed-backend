@@ -25,20 +25,22 @@ const uploadPdfToCloudinary = (fileBuffer) => new Promise((resolve, reject) => {
   ).end(fileBuffer);
 });
 
-const uploadImage = async (file) => {
-  try {
-    const result = await cloudinary.uploader.upload(file.path, {folder:'acubed-results-pictures'});
-    return result;
-  } catch (error) {
-    // console.error('error uploading image to cloudinary', error);
-    throw error;
-  }
-}
+
+// const uploadImage = async (file) => {
+//   try {
+//     const result = await cloudinary.uploader.upload(file.path, {folder:'acubed-results-pictures'});
+//     return result;
+//   } catch (error) {
+//     // console.error('error uploading image to cloudinary', error);
+//     throw error;
+//   }
+// }
 
 class SendResults {
   static async create(req, res) {
     try {
       const {
+        patientId,
         name,
         email,
         phoneNumber,
@@ -48,34 +50,32 @@ class SendResults {
 
       const id = uuidv4();
 
-      // Upload the file to Cloudinary
+      if (!req.file || !req.file.buffer) {
+        return res.status(400).json({
+          status: 400,
+          message: "PDF file is required.",
+        });
+      }
+
       const result = await uploadPdfToCloudinary(req.file.buffer);
 
-      // // for cloudinary image upload 
-      // const resultImage = await uploadImage(req.file);
-
-      // Use your database model (e.g., results.create) to save the data
-      await results.create({
+      const record = await results.create({
         id,
+        patientId,
         name,
         email,
         phoneNumber,
         address,
         sickness,
         pdf: result.secure_url,
-        // resultPicture: resultImage.secure_url
       });
-
-      const displayOrderFromHospital = {
-        name,
-        sickness,
-      };
 
       return res.status(201).json({
         status: 201,
         message: res.__('The result was sent successfully'),
-        data: displayOrderFromHospital,
+        data: record,
       });
+
     } catch (error) {
       return res.status(500).json({
         status: 500,
@@ -103,15 +103,18 @@ class SendResults {
     }
   }
 
-  static async getResultByPatientId(req, res) {
+  static async getResultByPatientEmail(req, res) {
     try {
-      const { name } = req.params;
-      const result = await results.findOne({
-        where: { name }
+      const { email } = req.params;
+      const result = await results.findAll({
+        where: { email }
       });
       if (!result) {
-        return res.status(404).send('no result on that name');
-      }
+        return res.status(404).json({
+          status: 404,
+          message: 'no result found on that name',
+      })
+    }
       return res.status(200).json({
         status: 200,
         message: 'Result fetched successfully',
@@ -125,11 +128,11 @@ class SendResults {
     }
   }
 
-  static async updateSomeResultByPatientId(req, res) {
-    try {
-      /// ///////////////////////////////////////////////////////////////// due to the changes of Asnake on the uploading of the results by the doctors, we are going to see how to upload images and pdf files in node.js, which has also to be a case for the creation of report, and it better to have to upload an image and/or a pdf, after this I will proceed with implementing the log in and signup in the fronten
 
-      // Update
+  // future implementation, after considering different requirement
+
+  static async updateSomeResultByPatientEmail(req, res) {
+    try {
 
       const { name } = req.params;
       const result = await results.update(req.body, {
@@ -169,7 +172,7 @@ class SendResults {
     }
   }
 
-  static async updateResultByPatientId(req, res) {
+  static async updateResultByPatientEmail(req, res) {
     try {
       const { name } = req.params;
       const result = await results.findOne({
@@ -194,7 +197,7 @@ class SendResults {
     }
   }
 
-  static async deleteResultByPatientId(req, res) {
+  static async deleteResultByPatientEmail(req, res) {
     try {
       const { name } = req.params;
       const result = await results.findOne({

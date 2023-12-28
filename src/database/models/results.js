@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   results.init({
+    patientId: DataTypes.STRING,
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
