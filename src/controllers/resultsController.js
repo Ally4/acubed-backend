@@ -105,7 +105,7 @@ class SendResults {
 
   static async getResultByPatientEmail(req, res) {
     try {
-      const { email } = req.params;
+      const { email } = req.body;
       const result = await results.findAll({
         where: { email }
       });

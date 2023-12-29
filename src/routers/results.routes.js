@@ -84,7 +84,7 @@ router.get('/results',
 //   // uploadImage.single('image'),
 //   resultsController.create);
 
-router.get('/:email',
+router.get('/',
   resultsController.getResultByPatientEmail);
 
 router.patch('/:email',
