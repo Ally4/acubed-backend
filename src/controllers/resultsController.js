@@ -86,14 +86,13 @@ class SendResults {
 
   static async getAllResults(req, res) {
     try {
-      const allResults = await results.findAll();
-      if (!allResults) {
-        return res.status(404).send('no results found');
-      }
+      const results = await results.findAll();
+  
       return res.status(200).json({
-        status: 200,
-        message: 'Results fetched successfully',
-        data: allResults,
+        status: 'success',
+        data: {
+          results,
+        },
       });
     } catch (error) {
       return res.status(500).json({
@@ -103,7 +102,36 @@ class SendResults {
     }
   }
 
+
+
+
   static async getResultByPatientEmail(req, res) {
+    try {
+      const { email } = req.body;
+      const result = await results.findAll({
+        where: { email }
+      });
+      if (!result) {
+        return res.status(404).json({
+          status: 404,
+          message: 'no result found on that name',
+      })
+    }
+      return res.status(200).json({
+        status: 200,
+        message: 'Result fetched successfully',
+        data: result,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        err: error.message,
+      });
+    }
+  }
+
+
+  static async getResultByPatientEmailMobile(req, res) {
     try {
       const { email } = req.params;
       const result = await results.findAll({
