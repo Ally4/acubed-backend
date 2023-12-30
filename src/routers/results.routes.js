@@ -20,11 +20,6 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
-router.post('/send',
-  validateResults,
-  upload.single('pdfFile'),
-  resultsController.create);
-
 // export default router;
 
 
@@ -78,14 +73,16 @@ router.post('/send',
 router.get('/results',
   resultsController.getAllResults);
 
-// router.post('/send',
-//   validateResults,
-//   upload.single('pdfFile'),
-//   // uploadImage.single('image'),
-//   resultsController.create);
+  router.post('/send',
+  validateResults,
+  upload.single('pdfFile'),
+  resultsController.create);
 
 router.get('/',
   resultsController.getResultByPatientEmail);
+
+  router.get('/mobile/:email',
+  resultsController.getResultByPatientEmailMobile);
 
 router.patch('/:email',
   resultsController.getResultByPatientEmail);
