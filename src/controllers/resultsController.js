@@ -87,6 +87,10 @@ class SendResults {
   static async getAllResults(req, res) {
     try {
       const results = await results.findAll();
+      if (!results) return res.status(404).json({
+        status: 404,
+        message:"No result in the system"
+      })
   
       return res.status(200).json({
         status: 'success',
