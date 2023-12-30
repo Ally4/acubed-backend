@@ -86,8 +86,8 @@ class SendResults {
 
   static async getAllResults(req, res) {
     try {
-      const results = await results.findAll();
-      if (!results) return res.status(404).json({
+      const theResults = await results.findAll();
+      if (!theResults) return res.status(404).json({
         status: 404,
         message:"No result in the system"
       })
@@ -95,7 +95,7 @@ class SendResults {
       return res.status(200).json({
         status: 'success',
         data: {
-          results,
+          theResults,
         },
       });
     } catch (error) {
