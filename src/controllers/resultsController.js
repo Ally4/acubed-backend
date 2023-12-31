@@ -106,7 +106,31 @@ class SendResults {
     }
   }
 
-
+  static async getAllResultsPdf(req, res) {
+    try {
+      const users = await results.findAll({
+        attributes: {
+          exclude: ['id', 'patientId', 'name', 'email', 'phoneNumber', 'address', 'sickness', 'status', 'createdAt', 'updatedAt'],
+        },
+      });
+      if (!users) return res.status(404).json({
+        status: 404,
+        message:"No result in the system"
+      })
+  
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          users,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        err: error.message,
+      });
+    }
+  }
 
 
   static async getResultByPatientEmail(req, res) {
