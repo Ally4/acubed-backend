@@ -73,7 +73,10 @@ const router = express.Router();
 router.get('/results',
   resultsController.getAllResults);
 
-  router.post('/send',
+router.get('/results-pdf',
+  resultsController.getAllResultsPdf);
+
+router.post('/send',
   validateResults,
   upload.single('pdfFile'),
   resultsController.create);
@@ -81,7 +84,7 @@ router.get('/results',
 router.get('/',
   resultsController.getResultByPatientEmail);
 
-  router.get('/mobile/:email',
+router.get('/mobile/:email',
   resultsController.getResultByPatientEmailMobile);
 
 router.patch('/:email',
